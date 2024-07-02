@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LateController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +30,26 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('show/{id}', 'show');
+});
+Route::prefix('branch')->controller(BranchController::class)->group(function () {
+    Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
+    Route::post('store', 'store');
+    Route::put('update/{id}', 'update');
+    Route::delete('delete/{id}', 'destroy');
+
+});
+Route::prefix('user')->controller(UserController::class)->group(function () {
+    Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
+});
+
+Route::prefix('late')->controller(LateController::class)->group(function () {
+    Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
+    Route::post('store', 'store');
+    Route::put('update/{id}', 'update');
+    Route::delete('delete/{id}', 'destroy');
+
 
 });

@@ -72,6 +72,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Image::class,'user_id');
     }
 
-
+    public function late()
+    {
+        return $this->hasMany(Late::class,'employee_id');
+    }
 
 }

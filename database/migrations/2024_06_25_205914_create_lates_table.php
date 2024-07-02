@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('lates', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('date');
+            $table->double('hours');
+            $table->foreignId('employee_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

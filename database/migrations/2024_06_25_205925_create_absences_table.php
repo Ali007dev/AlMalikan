@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('absences', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
+            $table->foreignId('employee_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
             $table->timestamps();
         });
     }

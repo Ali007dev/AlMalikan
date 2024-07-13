@@ -9,5 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Branch extends Model
 {
     use HasFactory,SoftDeletes;
+    protected $with = ['image'];
+
     protected $guarded =[];
+
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

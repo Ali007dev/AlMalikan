@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LateController;
 use App\Http\Controllers\UserController;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +53,21 @@ Route::prefix('late')->controller(LateController::class)->group(function () {
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
+
+
+});
+
+Route::prefix('attendance')->controller(AttendanceController::class)->group(function () {
+    Route::get('user-attendance/{id}', 'getUserAttendance');
+});
+
+
+Route::prefix('complaint')->controller(ComplaintController::class)->group(function () {
+    Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
+    Route::post('store', 'store');
+    Route::put('update/{id}', 'update');
+    Route::delete('delete', 'destroy');
 
 
 });

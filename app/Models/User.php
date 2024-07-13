@@ -69,12 +69,22 @@ class User extends Authenticatable implements JWTSubject
 
     public function profileImage()
     {
-        return $this->hasOne(Image::class,'user_id');
+        return $this->morphOne(Image::class, 'imageable')->where('type', 'profile');
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable')->where('type', '!=', 'profile');
     }
 
     public function late()
     {
         return $this->hasMany(Late::class,'employee_id');
+    }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
     }
 
 }

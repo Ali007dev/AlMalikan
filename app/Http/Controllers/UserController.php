@@ -14,8 +14,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index(){
+    public function index()
+    {
         $user = $this->userService->index();
         return ResponseHelper::success($user);
-        }
+    }
 }

@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Attendance;
 use App\Models\Branch;
+use App\Models\Complaint;
 use App\Models\Employee;
 use App\Models\Experince;
 use App\Models\Late;
@@ -23,8 +25,10 @@ class DatabaseSeeder extends Seeder
       Employee::factory(10)->create();
       Experince::factory(10)->create();
       Branch::factory(5)->create();
-
+      Complaint::factory(50)->create();
       Late::factory(30)->create();
+      Attendance::factory(500)->create();
+
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

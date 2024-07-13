@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ResponseHelper;
+use App\Http\Requests\BranchRequest;
 use App\Services\BranchService;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class BranchController extends Controller
         $result = $this->branchService->index();
         return ResponseHelper::success($result);
     }
-    public function store(Request $request)
+    public function store(BranchRequest $request)
     {
         $result = $this->branchService->store($request);
         return ResponseHelper::success($result);

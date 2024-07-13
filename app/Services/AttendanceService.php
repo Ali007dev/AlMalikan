@@ -2,11 +2,18 @@
 
 namespace App\Services;
 
-use App\Enums\FileStatusEnum;
 use App\Models\Branch;
+use App\Models\User;
 
-class BranchService
+class AttendanceService
 {
+
+    public function getUserAttendance($user)
+    {
+        $result = User::where('id', $user)->with('attendance')->get()->toArray();
+        return $result;
+    }
+
 
     public  function index()
     {
@@ -20,19 +27,9 @@ class BranchService
 
     public  function store($request)
     {
-    $data = $request->except('image');
-    $branch = Branch::create($data);
-
-    if ($request->hasFile('image')){
-      $image = upload($request->image, 'branches/images');
-      $branch->image()->create([
-        'image'=>$image,
-        'type'=> FileStatusEnum::OTHER
-    ]);
-}
-    return  $branch;
-
-
+     return   Branch::create([
+            "name" => $request->name,
+        ]);
     }
 
     public function update($branch_id, $request)

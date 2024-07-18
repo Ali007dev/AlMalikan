@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('period')->nullable();
+            $table->double('price');
+            $table->time('from')->nullable();
+            $table->time('to')->nullable();
             $table->timestamps();
         });
     }

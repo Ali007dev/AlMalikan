@@ -5,11 +5,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Scout\Searchable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+    use Searchable;
+
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +25,15 @@ class User extends Authenticatable implements JWTSubject
         'phone_number',
         'password',
     ];
+
+    public function queueMakeSearchable()
+    {
+        return [
+            'id' => $this->id,
+            'first_name' => $this->first_name,
+            'phone_number' => $this->phone_number,
+        ];
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\ResponseHelper;
 use Illuminate\Http\Request;
 
 class AbsenceController extends Controller

@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LateController;
+use App\Http\Controllers\OperationController;
 use App\Http\Controllers\UserController;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -71,3 +72,20 @@ Route::prefix('complaint')->controller(ComplaintController::class)->group(functi
 
 
 });
+
+
+Route::middleware('localization')->group(function(){
+
+    Route::prefix('operation')->controller(OperationController::class)->group(function () {
+        Route::get('index', 'index');
+        Route::get('show/{id}', 'show');
+        Route::post('store', 'store');
+        Route::put('update/{id}', 'update');
+        Route::delete('delete', 'destroy');
+    });
+
+});
+
+
+Route::get('/search', [UserController::class, 'search']);
+

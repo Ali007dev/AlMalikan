@@ -2,10 +2,9 @@
 
 namespace App\Enums;
 
-use Illuminate\Support\Facades\Enum;
-use Illuminate\Validation\Rules\Enum as RulesEnum;
+use Illuminate\Validation\Rules\Enum ;
 
-class RoleEnum extends RulesEnum
+class RoleEnum extends Enum
 {
     public const ADMIN = 'admin';
     public const EMPLOYEE = 'employee';

@@ -9,6 +9,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/scout": "^10.10",
         "laravel/telescope": "^5.1",
         "laravel/tinker": "^2.8",
         "php-open-source-saver/jwt-auth": "^2.4"
@@ -17,7 +18,7 @@
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^6.3",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
+        "laravel/sail": "^1.30",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.1",
@@ -31,6 +32,7 @@
         },
         "files": [
             "app/Helper/ResponseHelper.php",
+            "app/Helper/helpers.php",
             "app/Helper/files.php"
 
         ]

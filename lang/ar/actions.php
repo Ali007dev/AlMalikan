@@ -96,6 +96,7 @@ return [
     'start'           => 'بدء',
     'stop'            => 'إيقاف',
     'submit'          => 'إرسال',
+    'sucess'          => 'نجاح',
     'subscribe'       => 'اشتراك',
     'switch'          => 'تحويل',
     'switch_to_role'  => 'التحويل إلى صلاحية',

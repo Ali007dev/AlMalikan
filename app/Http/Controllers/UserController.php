@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ResponseHelper;
+use App\Models\Complaint;
+use App\Models\Decicion;
+use App\Models\Experince;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Laravel\Scout\Facades\Scout;
 
 class UserController extends Controller
 {
@@ -19,4 +24,22 @@ class UserController extends Controller
         $user = $this->userService->index();
         return ResponseHelper::success($user);
     }
+
+
+    public function search(Request $request)
+{
+    $query = $request->input('query');
+    $users = User::search($query)->get();
+    $educations = Complaint::search($query)->get();
+    $articles = Experince::search($query)->get();
+    $results = collect()
+        ->merge($users)
+        ->merge( $educations)
+        ->merge( $articles)
+        ->unique('id')
+        ->values();
+
+    return response()->json($results);
+}
+
 }

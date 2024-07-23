@@ -14,7 +14,7 @@ class ResponseHelper
     {
         $response = array(
             'success' => true,
-            'message' => transMsg($message),
+            'message' => $message,
             'data' => $data,
         );
 

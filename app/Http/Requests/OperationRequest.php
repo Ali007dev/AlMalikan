@@ -27,7 +27,7 @@ class OperationRequest extends FormRequest
             'image' => 'file',
             'from' => 'required_with:to|date_format:H:i:s',
             'to' => 'date_format:H:i:s',
-            'perion' => 'numeric',
+            'period' => 'numeric',
         ];
     }
 }

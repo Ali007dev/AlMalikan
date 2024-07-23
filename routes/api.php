@@ -81,7 +81,7 @@ Route::middleware('localization')->group(function(){
         Route::get('show/{id}', 'show');
         Route::post('store', 'store');
         Route::put('update/{id}', 'update');
-        Route::delete('delete', 'destroy');
+        Route::delete('delete/{id}', 'destroy');
     });
 
 });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('salary');
             $table->integer('pin');
             $table->string('national_id');
+            $table->string('position')->nullable();
             $table->date('start_date');
             $table->timestamps();
         });

@@ -14,8 +14,7 @@ class ApiResponseService
     {
         return response()->json([
             'sucess' =>true,
-
-            'message' => $msg ?? trans('response.success'),     
+            'message' => $msg ?? trans('response.success'),
             'data'    => $data,
         ],
             $code);

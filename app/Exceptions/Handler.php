@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Helper\ResponseHelper;
+use App\Services\ApiResponseService;
 use Exception;
 use Throwable;
 use Illuminate\Database\QueryException;
@@ -47,32 +48,41 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
 
-        switch(get_class($exception))
-        {
+        switch (get_class($exception)) {
             case QueryException::class:
-             return ResponseHelper::error($exception->getMessage());
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
             case AuthenticationException::class:
-                return ResponseHelper::error($exception->getMessage());
-                case ModelNotFoundException::class:
-                    return ResponseHelper::error($exception->getMessage());
-                    case TokenMismatchException::class:
-                        return ResponseHelper::error($exception->getMessage());
-                        case ValidationException::class:
-                            return ResponseHelper::error($exception->getMessage());
-                            case AuthorizationException::class:
-                                return ResponseHelper::error($exception->getMessage());
-                                case HttpException::class:
-                                    return ResponseHelper::error($exception->getMessage());
-                                    case NotFoundHttpException::class:
-                                        return ResponseHelper::error($exception->getMessage());
-                                        case MethodNotAllowedHttpException::class:
-             return ResponseHelper::error($exception->getMessage());
-
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case ModelNotFoundException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case TokenMismatchException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case ValidationException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case AuthorizationException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case HttpException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case NotFoundHttpException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
+            case MethodNotAllowedHttpException::class:
+                return ApiResponseService::errorMsgResponse(
+                    $exception->getMessage());
         }
+        
     }
 
     public function render($request, Throwable $exception)
     {
-        return ResponseHelper::error($exception->getMessage());
+        return ApiResponseService::errorMsgResponse(
+            $exception->getMessage());
     }
 }

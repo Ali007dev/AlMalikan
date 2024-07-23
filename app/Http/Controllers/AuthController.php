@@ -3,10 +3,12 @@ namespace App\Http\Controllers;
 
 use App\Enums\RoleEnum;
 use App\Helper\ResponseHelper;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Services\ApiResponseService;
 use App\Services\EmployeeService;
 use Illuminate\Support\Facades\DB;
 
@@ -32,19 +34,20 @@ class AuthController extends Controller
 
         $token = Auth::attempt($credentials);
         if (!$token) {
-           return ResponseHelper::error('unauthorized');
+            return ApiResponseService::errorResponse(
+                'unauthorized');
         }
 
         $user = Auth::user();
-        return ResponseHelper::success([
-                'user' => $user,
+        return ApiResponseService::successResponse([
+            'user' => $user,
                 'authorisation' => [
                     'token' => $token,
                     'type' => 'bearer',]]);
 
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         DB::beginTransaction();
 
@@ -52,7 +55,9 @@ class AuthController extends Controller
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
+                'middle_name' => $request->middle_name,
                 'phone_number' => $request->phone_number,
+                'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role'=> $request->role,
             ]);
@@ -67,7 +72,8 @@ class AuthController extends Controller
                         $request->pin,$request->start_date,
                         $request->salary,
                         $request->national_id,
-                        $request->description
+                        $request->description,
+                        $request->position
                     );
                     $this->employeeService->createExperience($request,$user->id);
                     break;
@@ -75,7 +81,7 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return ResponseHelper::success([
+            return ApiResponseService::successResponse([
                 'user' => $user,
                 'authorisation' => [
                     'token' => $token,
@@ -84,7 +90,8 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return ResponseHelper::error($e->getMessage());
+            return ApiResponseService::errorMsgResponse(
+                $e->getMessage());
         }
     }
 

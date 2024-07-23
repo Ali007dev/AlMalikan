@@ -189,6 +189,7 @@ return [
         'marital_status_id'       => 'الحالة الاجتماعية',
         'military_status_id'      => 'الحالة العسكرية',
         'email'                   => 'البريد الالكتروني',
+        'phone_number'                   => 'رقم الهاتف ',
         'health_insurance_number' => 'رقم التأمين الصحي',
 
         'phone_numbers'                                     => 'رقم الهاتف الثابت',

@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class EmployeeService
 {
 
-    public function createEmployee($user_id,$pin,$start_date,$salary,$national_id,$description){
+    public function createEmployee($user_id,$pin,$start_date,$salary,$national_id,$description,$position){
         $user = Employee::create([
             'user_id'=>$user_id,
             'pin'=>$pin,
@@ -20,6 +20,8 @@ class EmployeeService
             'national_id'=>$national_id,
             'description'=>$description,
             'salary'=>$salary,
+            'position'=>$position,
+
 
         ]);
         $salary=Salary::create([
@@ -35,15 +37,15 @@ class EmployeeService
     public function createExperience($request, $employee_id)
 {
     $experiences = [];
-
-    foreach ($request->name as $key => $name) {
-        $experiences[] = [
-            'employee_id' => $employee_id,
-            'name' => $name,
-            'description' => $request->description[$key],
-        ];
+    if ($request->has('experiences')) {
+        foreach ($request->experiences as $experience) {
+            $experiences[] = [
+                'name' => $experience['name'],
+                'description' => $experience['description'],
+                'employee_id'=>$employee_id
+            ];
+        }
     }
-
     Experince::insert($experiences);
 }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,15 +17,16 @@ class OperationFactory extends Factory
      */
     public function definition(): array
     {
-        $start_time = $this->faker->time('H:i');
-        $end_time = $this->faker->time('H:i');
+        $period =$this->faker->numberBetween(30,120);
+        $start_time = $this->faker->time('H:i:00');
+        $end_time = Carbon::parse($start_time)->addHours(9) ;
 
-
-        return [
+    return [
             'name'=> $this->faker->name,
-            'from' => $start_time,
+            'from' => $this->faker->time('H:i:00'),
             'to' => $end_time,
-            'price' => $this->faker->randomFloat(2,0,0),
-        ];
+            'price' => $this->faker->randomFloat(1000,10,0),
+            'period'=>$period
+    ];
     }
 }

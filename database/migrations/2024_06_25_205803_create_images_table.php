@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('imageable');
             $table->string('image');
-            $table->enum('type', ['profile','other']);
+            $table->enum('type', ['profile','before','after','other']);
             $table->timestamps();
         });
     }

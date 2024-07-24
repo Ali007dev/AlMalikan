@@ -8,9 +8,23 @@ use App\Models\User;
 class AttendanceService
 {
 
-    public function getUserAttendance($user)
+    public function getUserAttendance($userId)
     {
-        $result = User::where('id', $user)->with('attendance')->get()->toArray();
+        $user = User::findOrFail($userId);
+        $absence = $user->absence()->get()->map(function ($item) {
+            $item['isAbsence'] = true;
+            return $item;
+        });
+        $attendance = $user->attendance()->get()->map(function ($item) {
+            $item['isAbsence'] = false;
+            return $item;
+        });
+ 
+        $result = collect([$absence, $attendance])
+            ->flatten()
+            ->sortByDesc('date')
+            ->values()
+            ->toArray();
         return $result;
     }
 
@@ -27,7 +41,7 @@ class AttendanceService
 
     public  function store($request)
     {
-     return   Branch::create([
+        return   Branch::create([
             "name" => $request->name,
         ]);
     }
@@ -37,7 +51,6 @@ class AttendanceService
         return  Branch::findOrFail($branch_id)->update([
             "name" => $request->name
         ]);
-
     }
 
     public function destroy($branch_id)

@@ -24,22 +24,27 @@ class UserController extends Controller
         $user = $this->userService->index();
         return ResponseHelper::success($user);
     }
+    public function storeImages($id,Request $request)
+    {
+        $user = $this->userService->storeImages($id,$request);
+        return ResponseHelper::success($user);
+    }
+
 
 
     public function search(Request $request)
-{
-    $query = $request->input('query');
-    $users = User::search($query)->get();
-    $educations = Complaint::search($query)->get();
-    $articles = Experince::search($query)->get();
-    $results = collect()
-        ->merge($users)
-        ->merge( $educations)
-        ->merge( $articles)
-        ->unique('id')
-        ->values();
+    {
+        $query = $request->input('query');
+        $users = User::search($query)->get();
+        $educations = Complaint::search($query)->get();
+        $articles = Experince::search($query)->get();
+        $results = collect()
+            ->merge($users)
+            ->merge($educations)
+            ->merge($articles)
+            ->unique('id')
+            ->values();
 
-    return response()->json($results);
-}
-
+        return response()->json($results);
+    }
 }

@@ -46,6 +46,9 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('show/{id}', 'show');
+
+    Route::post('store-images/{id}', 'storeImages');
+
 });
 
 Route::prefix('late')->controller(LateController::class)->group(function () {
@@ -85,6 +88,7 @@ Route::middleware('localization')->group(function(){
     });
 
 });
+
 
 
 Route::get('/search', [UserController::class, 'search']);

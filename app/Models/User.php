@@ -95,5 +95,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class);
     }
+    public function absence()
+    {
+        return $this->hasMany(Absence::class,'user_id');
+    }
 
+    
 }

@@ -22,14 +22,20 @@ class UserService
 
         foreach ($request->images as $image) {
             $imagePath = upload($image['image'], 'user/images');
-            $storedTmage = $user->images()->create([
+
+            $storedImage  = $user->images()->create([
                 'image' => $imagePath,
                 'type' => $image['type'],
             ]);
-            $temp = $this->checkFileType($image['type'], FileStatusEnum::AFTER, $storedTmage);
+            $imageResponse []=[
+                'image' => $imagePath,
+                'type' => $image['type'],
+            ];
+            $temp = $this->checkFileType($image['type'], FileStatusEnum::AFTER, $storedImage);
             if($temp)$after = $temp;
-            $temp = $this->checkFileType($image['type'], FileStatusEnum::BEFORE, $storedTmage);
+            $temp = $this->checkFileType($image['type'], FileStatusEnum::BEFORE, $storedImage);
             if($temp)$before = $temp;
+
         }
         $descriptions[] = [
             'before_id' => $before,
@@ -37,16 +43,19 @@ class UserService
             'description' => $request->description,
         ];
         ImageDescription::insert($descriptions);
+
+        return $imageResponse;
     }
-
-
     private function checkFileType($var1, $var2, $var3)
     {
-
         if ($var1 === $var2) {
             return $var3->id;
         }
-
-
     }
+
+    public function getBeforeAfterImages()
+    {
+        return ImageDescription::paginate(10);
+    }
+
 }

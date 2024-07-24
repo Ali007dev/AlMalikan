@@ -13,6 +13,14 @@ return [
     |
     */
 
+
+
+
+
+
+
+
+
     'hourly_request_wrong_time' => "الفترة الزمنية المحددة تتجاوز الحد الأقصى لـ 8 ساعات.",
     'accepted'                  => 'يجب قبول حقل :attribute',
     'accepted_if'               => 'حقل :attribute مقبول في حال كان :other يساوي :value.',
@@ -362,6 +370,13 @@ return [
         'heavy' => 'التثقيل',
 
 
+
+
+        'images.1.image' =>               ' صورة قبل او بعد',
+    'images.0.image' =>               ' صورة قبل او بعد',
+    'images' =>               'الصور',
+    'images.1.type' =>               '  نوع صورة قبل او بعد',
+    'images.0.type' =>               '  نوع صورة قبل او بعد',
     ],
 
 ];

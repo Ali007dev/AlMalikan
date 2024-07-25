@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Absence;
+use App\Models\Ad;
 use App\Models\Attendance;
 use App\Models\Branch;
 use App\Models\Complaint;
@@ -34,7 +35,11 @@ class DatabaseSeeder extends Seeder
       Attendance::factory(500)->create();
        Operation::factory(20)->create();
        Absence::factory(20)->create();
+<<<<<<< HEAD
        Day::factory(20)->create();
+=======
+       Ad::factory(20)->create();
+>>>>>>> 6abc61a16ce4ed3a4f3b88cbf8175e37b46bd61b
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

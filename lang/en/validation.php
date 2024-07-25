@@ -12,6 +12,14 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
+
+
+
+
+
+
+
+
     'hourly_request_wrong_time' => "The selected time interval exceeds the 8-hour limit.",
     'value_not_in_enum' => "The :attribute field must be a valid value.",
     'accepted' => 'The :attribute field must be accepted.',
@@ -180,6 +188,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'images.1.image' =>               'before or after image',
+        'images.0.image' =>               'before or after image',
+        'images' =>               'images',
+        'images.1.type' =>               'before or after image type',
+        'images.0.type' =>               'before or after image type',],
 
 ];

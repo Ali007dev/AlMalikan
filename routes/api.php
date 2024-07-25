@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
@@ -28,7 +29,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-
 });
 
 Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
@@ -43,7 +43,6 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
-
 });
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index', 'index');
@@ -51,7 +50,7 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 
 
     Route::post('store-images/{id}', 'storeImages');
-
+    Route::get('before-after-images', 'getBeforeAfterImages');
 });
 
 Route::prefix('late')->controller(LateController::class)->group(function () {
@@ -60,8 +59,6 @@ Route::prefix('late')->controller(LateController::class)->group(function () {
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
-
-
 });
 
 Route::prefix('attendance')->controller(AttendanceController::class)->group(function () {
@@ -75,12 +72,10 @@ Route::prefix('complaint')->controller(ComplaintController::class)->group(functi
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete', 'destroy');
-
-
 });
 
 
-Route::middleware('localization')->group(function(){
+Route::middleware('localization')->group(function () {
 
     Route::prefix('operation')->controller(OperationController::class)->group(function () {
         Route::get('index', 'index');
@@ -89,10 +84,15 @@ Route::middleware('localization')->group(function(){
         Route::put('update/{id}', 'update');
         Route::delete('delete/{id}', 'destroy');
     });
+});
 
+Route::prefix('offer')->controller(AdController::class)->group(function () {
+    Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
+    Route::post('store', 'store');
+    Route::put('update/{id}', 'update');
+    Route::delete('delete/{id}', 'destroy');
 });
 
 
-
 Route::get('/search', [UserController::class, 'search']);
-

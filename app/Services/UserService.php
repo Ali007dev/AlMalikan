@@ -27,9 +27,9 @@ class UserService
                 'type' => $image['type'],
             ]);
             $temp = $this->checkFileType($image['type'], FileStatusEnum::AFTER, $storedTmage);
-            if($temp)$after = $temp;
+            if ($temp) $after = $temp;
             $temp = $this->checkFileType($image['type'], FileStatusEnum::BEFORE, $storedTmage);
-            if($temp)$before = $temp;
+            if ($temp) $before = $temp;
         }
         $descriptions[] = [
             'before_id' => $before,
@@ -46,7 +46,5 @@ class UserService
         if ($var1 === $var2) {
             return $var3->id;
         }
-
-
     }
 }

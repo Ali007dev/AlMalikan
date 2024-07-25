@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
         'last_name'=> 'admin',
         'phone_number'=> '0992992992',
         'password'=>Hash::make('password'),
+        'branch_id' => 1,
 
        ]);
 

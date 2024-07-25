@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('national_id');
             $table->string('position')->nullable();
             $table->date('start_date');
+            $table->boolean('isFixed')->default(false);
             $table->timestamps();
         });
     }

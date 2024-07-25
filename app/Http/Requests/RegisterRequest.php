@@ -29,6 +29,7 @@ class RegisterRequest extends FormRequest
             'phone_number' => 'numeric|nullable|unique:users,phone_number,id',
             'password' => 'nullable',
             'salary' => 'nullable|numeric',
+            'isFixed' => 'boolean',
             'role' => 'string',
             'position' => 'string',
             'start_date' => 'date_format:Y-m-d',

@@ -73,7 +73,8 @@ class AuthController extends Controller
                         $request->salary,
                         $request->national_id,
                         $request->description,
-                        $request->position
+                        $request->position,
+                        $request->isFixed
                     );
                     $this->employeeService->createExperience($request,$user->id);
                     break;

@@ -8,6 +8,7 @@ use App\Models\Absence;
 use App\Models\Attendance;
 use App\Models\Branch;
 use App\Models\Complaint;
+use App\Models\Day;
 use App\Models\Employee;
 use App\Models\Experince;
 use App\Models\Late;
@@ -22,16 +23,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Branch::factory(5)->create();
+
         $this->call(UserSeeder::class);
       User::factory(10)->create();
       Employee::factory(10)->create();
       Experince::factory(10)->create();
-      Branch::factory(5)->create();
       Complaint::factory(50)->create();
       Late::factory(30)->create();
       Attendance::factory(500)->create();
        Operation::factory(20)->create();
        Absence::factory(20)->create();
+       Day::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

@@ -34,6 +34,8 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('show/{id}', 'show');
+    Route::get('attendance-percent/{id}', 'attendancePercent');
+
 });
 Route::prefix('branch')->controller(BranchController::class)->group(function () {
     Route::get('index', 'index');
@@ -46,6 +48,7 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('show/{id}', 'show');
+
 
     Route::post('store-images/{id}', 'storeImages');
 

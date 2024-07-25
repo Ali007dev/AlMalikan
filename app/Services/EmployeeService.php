@@ -79,8 +79,8 @@ class EmployeeService
         } else {
             $absencePercent = ($absence / $days) * 100;
             return [
-                'absence' => $absencePercent,
-                'attendance' => 100 - $absencePercent
+                ['absence' => $absencePercent,],
+               [ 'attendance' => 100 - $absencePercent]
             ];
         }
     }

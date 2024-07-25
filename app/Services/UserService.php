@@ -27,15 +27,14 @@ class UserService
                 'image' => $imagePath,
                 'type' => $image['type'],
             ]);
-            $imageResponse []=[
+            $imageResponse[] = [
                 'image' => $imagePath,
                 'type' => $image['type'],
             ];
             $temp = $this->checkFileType($image['type'], FileStatusEnum::AFTER, $storedImage);
-            if($temp)$after = $temp;
+            if ($temp) $after = $temp;
             $temp = $this->checkFileType($image['type'], FileStatusEnum::BEFORE, $storedImage);
-            if($temp)$before = $temp;
-
+            if ($temp) $before = $temp;
         }
         $descriptions[] = [
             'before_id' => $before,
@@ -55,7 +54,6 @@ class UserService
 
     public function getBeforeAfterImages()
     {
-        return ImageDescription::paginate(10);
+        return ImageDescription::withCount('reactions')->paginate(10);
     }
-
 }

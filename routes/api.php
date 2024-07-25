@@ -8,6 +8,7 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LateController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\UserController;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -63,6 +64,10 @@ Route::prefix('late')->controller(LateController::class)->group(function () {
 
 Route::prefix('attendance')->controller(AttendanceController::class)->group(function () {
     Route::get('user-attendance/{id}', 'getUserAttendance');
+});
+
+Route::prefix('react')->controller(ReactionController::class)->group(function () {
+    Route::post('image', 'reactOnImages');
 });
 
 

@@ -21,5 +21,10 @@ class ImageDescription extends Model
         return $this->belongsTo(Image::class,'after_id');
     }
 
+    public function reactions()
+    {
+        return $this->morphOne(Reaction::class, 'likable');
+    }
+
 
 }

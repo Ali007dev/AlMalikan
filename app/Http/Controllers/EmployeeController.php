@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ResponseHelper;
+use App\Services\ApiResponseService;
 use App\Services\EmployeeService;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = $this->employeeService->index();
-        return ResponseHelper::success($employees);
+        return ApiResponseService::successResponse($employees);
     }
 
     public function store(Request $request)
@@ -26,12 +27,12 @@ class EmployeeController extends Controller
     public function show($employee)
     {
         $employees = $this->employeeService->show($employee);
-        return ResponseHelper::success($employees);
+        return ApiResponseService::successResponse($employees);
     }
 
     public function attendancePercent($employee)
     {
         $employees = $this->employeeService->attendancePercent($employee);
-        return ResponseHelper::success($employees);
+        return ApiResponseService::successResponse($employees);
     }
 }

@@ -23,7 +23,7 @@ return [
     'can_not_cutting_vacation'        => 'This vacation cannot be cutting before it can accepted',
     'not_percent_value'               => 'The value must be percentage',
     'penalty_value_percentage'        => 'Value field must be between 1,100',
-    'unique_error'                    => "You can't Duplicate data",
+    'unique_error'                    => "You can't react again",
     'report_creation_failed'          => "Unable to find the salary for the specified month",
     'no_token'                        => 'There is no Token',
     'cant_update_vacation_request'    => 'Vacation requests can only be edited while they are in the proposal state',

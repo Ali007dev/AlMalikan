@@ -52,10 +52,10 @@ if (!function_exists('throwError')) {
     /**
      * This method just for debug
      */
-    // function throwError($object): string
-    // {
-    //     throw new \App\Exceptions\ErrorMsgException($object);
-    // }
+    function throwError($object): string
+    {
+        throw new \App\Exceptions\ErrorMsgException($object);
+    }
 }
 
 
@@ -176,36 +176,10 @@ if (!function_exists('greaterDate')) {
         return $carbonDate1->greaterThan($carbonDate2) ? $date1 : $date2;
     }
 }
-if (!function_exists('hoursToDay')) {
-    function hoursToDay($hours, $day_hours = 24)
-    {
-        return $hours / ($day_hours + 0.0);
-    }
-}
-if (!function_exists('dayToHours')) {
-    function dayToHours($day, $day_hours = 24)
-    {
-        return $day * $day_hours;
-    }
-}
-if (!function_exists('sameDate')) {
-    function sameDate($first_date, $second_date)
-    {
-        $first_date = Carbon::parse($first_date)->setTime(0, 0, 0);
-        $second_date = Carbon::parse($second_date)->setTime(0, 0, 0);
-        return $first_date->equalTo($second_date);
-    }
-}
 if (!function_exists('diffDateByYear')) {
     function diffDateByYear($from_date, $to_date)
     {
         return Carbon::parse($from_date)->diff($to_date)->y;
-    }
-}
-if (!function_exists('combineDateAndHour')) {
-    function combineDateAndHour($date, $hour)
-    {
-        return Carbon::parse($date)->setTime($hour, 0, 0);
     }
 }
 if (!function_exists('diffDateByMonth')) {
@@ -221,30 +195,8 @@ if (!function_exists('diffDateByDay')) {
         return Carbon::parse($from_date)->diff($to_date)->days;
     }
 }
-if (!function_exists('diffDateByHour')) {
-    function diffDateByHour($from_date, $to_date)
-    {
-        $from = Carbon::parse($from_date)->setMinutes(0);
-        $to = Carbon::parse($to_date)->setMinutes(0);
-        return $from->diffInHours($to);
-    }
-}
-if (!function_exists('dateOnly')) {
-    function dateOnly($date)
-    {
-        $cDate = Carbon::parse($date);
-        return $cDate->format('Y-m-d');
-    }
-}
-if (!function_exists('hourOnly')) {
-    function hourOnly($date)
-    {
-        $cDate = Carbon::parse($date);
-        return $cDate->format('H');
-    }
-}
 
-if (!function_exists('Arg')) {
+if (!function_exists('getArg')) {
     function getArg(string $key, mixed ...$args): mixed
     {
         $args = $args[0];

@@ -23,7 +23,7 @@ return [
     'has_series_days'                 => 'تم تجاوز عدد الايام المتتالية المسموحة',
     'can_not_cutting_vacation'        => 'لا يمكنك قطع هذه الإجازة لأنها ليست مقبولة بعد',
     'penalty_value_percentage'        => 'حقل القيمة يجب ان يكون بين 1و100',
-    'unique_error'                    => 'لا تستطيع تكرار البيانات',
+    'unique_error'                    => 'لا تستطيع التفاعل اكثر من مرة ',
     'report_creation_failed'          => "Unable to find the salary for the specified month.",
     'no_token'                        => 'لا يوجد معرف دخول Token',
     'cant_update_vacation_request'    => 'يمكن تعديل طلبات الإجازة فقط عندما تكون في حالة الاقتراح',

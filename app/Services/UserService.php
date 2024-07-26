@@ -6,12 +6,15 @@ use App\Enums\FileStatusEnum;
 use App\Enums\RoleEnum;
 use App\Models\ImageDescription;
 use App\Models\User;
+use App\Models\UserBranch;
 
 class UserService
 {
     public function index()
     {
-        return User::where('role', RoleEnum::USER)->with('profileImage')->get()->toArray();
+        return User::where('role', RoleEnum::USER)
+        ->with('profileImage','branches:id,name')
+        ->get()->toArray();
     }
 
     public function storeImages($user, $request)
@@ -56,4 +59,18 @@ class UserService
     {
         return ImageDescription::withCount('reactions')->paginate(10);
     }
+
+    public function addBranchesForUser($branches, $user)
+{
+
+    $data = [];
+    foreach ($branches as $branch) {
+        $data[] = [
+            'branch_id' => $branch,
+            'user_id' => $user,
+        ];
+    }
+    UserBranch::insert(array_unique($data, SORT_REGULAR));
+    return true;
+}
 }

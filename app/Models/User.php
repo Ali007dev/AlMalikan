@@ -100,5 +100,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Absence::class,'user_id');
     }
 
-    
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class,'user_branches','user_id');
+    }
 }

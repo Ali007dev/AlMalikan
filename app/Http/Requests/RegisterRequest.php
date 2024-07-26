@@ -3,10 +3,18 @@
 namespace App\Http\Requests;
 
 use App\Enums\RoleEnum;
+use App\Models\User;
+use App\Rules\UniqueUserBranchRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
+    private $user;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,6 +30,7 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'first_name' => 'required|string',
             'middle_name' => 'string',
@@ -37,6 +46,8 @@ class RegisterRequest extends FormRequest
             'description.*.' => 'array',
             'name.*.'=> 'array',
             'national_id'=> 'numeric',
+            'branch_id'=> 'numeric|exists:branches,id',
+            'branches.*'=> ['exists:branches,id'],
         ];
     }
 }

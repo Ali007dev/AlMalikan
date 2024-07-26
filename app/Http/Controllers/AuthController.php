@@ -4,21 +4,27 @@ namespace App\Http\Controllers;
 use App\Enums\RoleEnum;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\RegisterRequest;
+use App\Interfaces\RegisteredUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Rules\UniqueUserBranchRule;
 use App\Services\ApiResponseService;
 use App\Services\EmployeeService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
     private $employeeService;
+    private $userService;
 
-    public function __construct(EmployeeService $employeeService)
+    public function __construct(EmployeeService $employeeService ,UserService $userService)
     {
         $this->employeeService = $employeeService;
+        $this->userService = $userService;
+
         $this->middleware('auth:api', ['except' => ['login','register']]);
 
     }
@@ -27,11 +33,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|string',
+            'email' => 'required_without:phone_number|email',
+            'phone_number' => 'required_without:email|string',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('phone_number', 'password');
-
+        if($request->email){
+            $credentials = $request->only('email', 'password');
+            }
+             if($request->phone_number){
+            $credentials = $request->only('phone_number', 'password');
+            }
         $token = Auth::attempt($credentials);
         if (!$token) {
             return ApiResponseService::errorResponse(
@@ -60,6 +71,8 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role'=> $request->role,
+                'branch_id'=> $request->branch_id,
+
             ]);
 
             $token = Auth::login($user);
@@ -77,6 +90,11 @@ class AuthController extends Controller
                         $request->isFixed
                     );
                     $this->employeeService->createExperience($request,$user->id);
+
+                    case RoleEnum::USER:
+                        if($request->branches){
+                    $this->userService->addBranchesForUser($request->branches,$user->id);
+                        }
                     break;
             }
 

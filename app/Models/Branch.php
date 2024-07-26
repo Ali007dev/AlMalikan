@@ -18,4 +18,9 @@ class Branch extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'user_branches','branch_id');
+    }
 }

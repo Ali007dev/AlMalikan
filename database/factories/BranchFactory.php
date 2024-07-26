@@ -20,6 +20,10 @@ class BranchFactory extends Factory
 
              'name' => $this->faker->name,
              'location' => $this->faker->name,
+             'start_time' => '09:00:00',
+             'end_time' => '05:00:00',
+             'description' => $this->faker->title,
+             'working_days' => json_encode(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']),
 
          ];
     }

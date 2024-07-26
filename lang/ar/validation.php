@@ -184,6 +184,10 @@ return [
     */
 
     'attributes' => [
+        'start_time' => 'وقت البداية',
+        'end_time' => 'وقت النهاية',
+
+        'working_days' => 'أيام العمل',
         'first_name'              => 'الاسم الأول',
         'last_name'               => 'اسم العائلة',
         'middle_name'             => 'اسم الأب',

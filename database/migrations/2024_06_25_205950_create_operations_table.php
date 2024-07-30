@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
             $table->string('name');
             $table->integer('period')->nullable();
             $table->double('price');

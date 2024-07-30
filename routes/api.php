@@ -44,6 +44,9 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
+    Route::get('get-statistic-for-branch/{id}', 'getStatisticForBranch');
+
+
 });
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index', 'index');
@@ -83,7 +86,7 @@ Route::prefix('complaint')->controller(ComplaintController::class)->group(functi
 Route::middleware('localization')->group(function () {
 
     Route::prefix('operation')->controller(OperationController::class)->group(function () {
-        Route::get('index', 'index');
+        Route::get('index/{id}', 'index');
         Route::get('show/{id}', 'show');
         Route::post('store', 'store');
         Route::put('update/{id}', 'update');

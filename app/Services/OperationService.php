@@ -9,9 +9,9 @@ use App\Models\Operation;
 class OperationService
 {
 
-    public  function index()
+    public  function index($branch_id)
     {
-        return  Operation::get()->toArray();
+        return  Operation::where('branch_id', $branch_id)->get()->toArray();
     }
 
     public  function show($branch_id)

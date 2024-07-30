@@ -40,4 +40,10 @@ class BranchController extends Controller
         $result = $this->branchService->show($id);
         return ResponseHelper::success($result);
     }
+
+    public function getStatisticForBranch($id)
+    {
+        $result = $this->branchService->getStatisticForBranch($id);
+        return ResponseHelper::success($result);
+    }
 }

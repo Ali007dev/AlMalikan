@@ -16,9 +16,9 @@ class OperationController extends Controller
         $this->operationService = $operationService;
     }
 
-    public function index()
+    public function index($id)
     {
-        $result = $this->operationService->index();
+        $result = $this->operationService->index($id);
         return ApiResponseService::successResponse($result);
     }
     public function store(OperationRequest $request)

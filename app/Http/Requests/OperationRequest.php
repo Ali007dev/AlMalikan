@@ -28,6 +28,8 @@ class OperationRequest extends FormRequest
             'from' => 'required_with:to|date_format:H:i:s',
             'to' => 'date_format:H:i:s',
             'period' => 'numeric',
+            'branch_id'=>'numeric|required|exists:branches,id' ,
+
         ];
     }
 }

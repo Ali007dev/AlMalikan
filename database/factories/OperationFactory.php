@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Branch;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,8 +21,10 @@ class OperationFactory extends Factory
         $period =$this->faker->numberBetween(30,120);
         $start_time = $this->faker->time('H:i:00');
         $end_time = Carbon::parse($start_time)->addHours(9) ;
+        $branch = Branch::all();
 
     return [
+             'branch_id' => $branch->random()->id,
             'name'=> $this->faker->name,
             'from' => $this->faker->time('H:i:00'),
             'to' => $end_time,

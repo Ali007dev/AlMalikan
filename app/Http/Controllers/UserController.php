@@ -15,6 +15,7 @@ use Laravel\Scout\Facades\Scout;
 
 class UserController extends Controller
 {
+    
     private $userService;
     public function __construct(UserService $userService)
     {

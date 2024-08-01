@@ -23,7 +23,7 @@ class AdsService
         $data = $request->except('image');
         $ad = Ad::create($data);
         if ($request->hasFile('image')) {
-            $image = upload($request->image, 'branches/images');
+            $image = upload($request->image, 'offer/images');
             $ad->image()->create([
                 'image' => $image,
                 'type' => FileStatusEnum::OTHER

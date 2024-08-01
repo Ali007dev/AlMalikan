@@ -83,7 +83,6 @@ Route::prefix('complaint')->controller(ComplaintController::class)->group(functi
 });
 
 
-Route::middleware('localization')->group(function () {
 
     Route::prefix('operation')->controller(OperationController::class)->group(function () {
         Route::get('index/{id}', 'index');
@@ -92,7 +91,7 @@ Route::middleware('localization')->group(function () {
         Route::put('update/{id}', 'update');
         Route::delete('delete/{id}', 'destroy');
     });
-});
+
 
 Route::prefix('offer')->controller(AdController::class)->group(function () {
     Route::get('index', 'index');

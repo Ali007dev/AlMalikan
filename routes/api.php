@@ -24,6 +24,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::prefix('offer')->controller(AdController::class)->group(function () {
+    Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
+    Route::post('store', 'store');
+    Route::put('update/{id}', 'update');
+    Route::delete('delete/{id}', 'destroy');
+});
+
+
 
 Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -36,7 +45,6 @@ Route::prefix('employee')->controller(EmployeeController::class)->group(function
     Route::get('index', 'index');
     Route::get('show/{id}', 'show');
     Route::get('attendance-percent/{id}', 'attendancePercent');
-
 });
 Route::prefix('branch')->controller(BranchController::class)->group(function () {
     Route::get('index', 'index');
@@ -45,8 +53,6 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
     Route::get('get-statistic-for-branch/{id}', 'getStatisticForBranch');
-
-
 });
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index', 'index');
@@ -84,22 +90,16 @@ Route::prefix('complaint')->controller(ComplaintController::class)->group(functi
 
 
 
-    Route::prefix('operation')->controller(OperationController::class)->group(function () {
-        Route::get('index/{id}', 'index');
-        Route::get('show/{id}', 'show');
-        Route::post('store', 'store');
-        Route::put('update/{id}', 'update');
-        Route::delete('delete/{id}', 'destroy');
-    });
-
-
-Route::prefix('offer')->controller(AdController::class)->group(function () {
-    Route::get('index', 'index');
+Route::prefix('operation')->controller(OperationController::class)->group(function () {
+    Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
 });
+
+
+
 
 
 Route::get('/search', [UserController::class, 'search']);

@@ -23,4 +23,14 @@ class Branch extends Model
     {
         return $this->belongsToMany(User::class,'user_branches','branch_id');
     }
+
+    public function client()
+    {
+        return $this->hasMany(User::class)->where('role','user');
+    }
+
+    public function employee()
+    {
+        return $this->hasMany(User::class)->where('role','employee');
+    }
 }

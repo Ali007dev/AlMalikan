@@ -15,7 +15,7 @@ class BranchService
 
     public  function index()
     {
-        return  Branch::get()->toArray();
+        return  Branch::withCount('client','employee')->get()->toArray();
     }
 
     public  function show($branch_id)

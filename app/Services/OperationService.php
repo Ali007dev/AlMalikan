@@ -11,12 +11,12 @@ class OperationService
 
     public  function index($branch_id)
     {
-        return  Operation::where('branch_id', $branch_id)->get()->toArray();
+        return  Operation::where('branch_id', $branch_id)->with('image')->get()->toArray();
     }
 
     public  function show($branch_id)
     {
-        return  Operation::findOrFail($branch_id);
+        return  Operation::with('image')->findOrFail($branch_id);
     }
 
     public  function store($request)
@@ -25,7 +25,7 @@ class OperationService
     $branch = Operation::create($data);
 
     if ($request->hasFile('image')){
-      $image = upload($request->image, 'branches/images');
+      $image = upload($request->image, 'operations/images');
       $branch->image()->create([
         'image'=>$image,
         'type'=> FileStatusEnum::OTHER

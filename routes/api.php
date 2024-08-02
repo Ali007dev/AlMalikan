@@ -53,6 +53,9 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
     Route::get('get-statistic-for-branch/{id}', 'getStatisticForBranch');
+    Route::get('get-digram-statistic-for-branch/{id}', 'getDigramStatisticForBranch');
+
+
 });
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index', 'index');

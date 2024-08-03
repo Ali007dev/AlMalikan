@@ -104,4 +104,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Branch::class,'user_branches','user_id');
     }
+
+    public function services()
+    {
+        return $this->belongsToMany(Branch::class,'employee_services','user_id');
+    }
 }

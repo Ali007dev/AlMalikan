@@ -14,9 +14,9 @@ class EmployeeController extends Controller
     {
         $this->employeeService = $employeeService;
     }
-    public function index()
+    public function index($id)
     {
-        $employees = $this->employeeService->index();
+        $employees = $this->employeeService->index($id);
         return ApiResponseService::successResponse($employees);
     }
 
@@ -35,4 +35,6 @@ class EmployeeController extends Controller
         $employees = $this->employeeService->attendancePercent($employee);
         return ApiResponseService::successResponse($employees);
     }
+
+  
 }

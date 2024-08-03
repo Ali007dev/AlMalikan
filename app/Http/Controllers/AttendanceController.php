@@ -19,4 +19,10 @@ class AttendanceController extends Controller
         $result  = $this->attendanceService->getUserAttendance($user);
         return ResponseHelper::success($result);
     }
+
+    public function getDailyAttendance($user)
+    {
+        $result  = $this->attendanceService->getDailyAttendance($user);
+        return ResponseHelper::success($result);
+    }
 }

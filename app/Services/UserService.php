@@ -10,10 +10,10 @@ use App\Models\UserBranch;
 
 class UserService
 {
-    public function index()
+    public function index($id)
     {
         return User::where('role', RoleEnum::USER)
-        ->with('profileImage','branches:id,name')
+        ->where('branch_id',$id)->with('profileImage','branches:id,name')
         ->get()->toArray();
     }
 
@@ -61,7 +61,7 @@ class UserService
     }
 
     public function addBranchesForUser($branches, $user)
-{
+    {
 
     $data = [];
     foreach ($branches as $branch) {
@@ -73,4 +73,10 @@ class UserService
     UserBranch::insert(array_unique($data, SORT_REGULAR));
     return true;
 }
+
+public function destroy($id)
+    {
+        User::findOrFail($id)->delete();
+        return true;
+    }
 }

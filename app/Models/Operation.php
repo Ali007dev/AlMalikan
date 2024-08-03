@@ -16,4 +16,9 @@ class Operation extends Model
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', FileStatusEnum::OTHER);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'employee_services', 'operation_id');
+    }
 }

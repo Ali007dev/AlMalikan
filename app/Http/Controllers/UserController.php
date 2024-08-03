@@ -15,16 +15,16 @@ use Laravel\Scout\Facades\Scout;
 
 class UserController extends Controller
 {
-    
+
     private $userService;
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
 
-    public function index()
+    public function index($id)
     {
-        $user = $this->userService->index();
+        $user = $this->userService->index($id);
         return ResponseHelper::success($user);
     }
     public function storeImages($id,StoreImageRequest $request)
@@ -53,5 +53,11 @@ class UserController extends Controller
             ->values();
 
         return response()->json($results);
+    }
+
+    public function destroy($id)
+    {
+        $result = $this->userService->destroy($id);
+        return ApiResponseService::successResponse($result);
     }
 }

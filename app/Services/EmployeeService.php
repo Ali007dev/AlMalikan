@@ -93,7 +93,7 @@ class EmployeeService
     $data = [];
     foreach ($services as $service) {
         $data[] = [
-            'service_id' => $service,
+            'operation_id' => $service,
             'user_id' => $user,
         ];
     }

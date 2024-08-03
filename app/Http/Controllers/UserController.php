@@ -39,6 +39,12 @@ class UserController extends Controller
         return ApiResponseService::successResponse($user);
     }
 
+    public function getBeforeAfterImageswithoutPaginate()
+    {
+        $user = $this->userService->getBeforeAfterImageswithoutPaginate();
+        return ApiResponseService::successResponse($user);
+    }
+
     public function search(Request $request)
     {
         $query = $request->input('query');

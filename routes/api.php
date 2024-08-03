@@ -65,6 +65,8 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 
     Route::post('store-images/{id}', 'storeImages');
     Route::get('before-after-images', 'getBeforeAfterImages');
+    Route::get('before-after-images-without-paginate', 'getBeforeAfterImageswithoutPaginate');
+
 });
 
 Route::prefix('late')->controller(LateController::class)->group(function () {

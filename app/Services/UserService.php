@@ -60,6 +60,11 @@ class UserService
         return ImageDescription::withCount('reactions')->paginate(10);
     }
 
+    public function getBeforeAfterImageswithoutPaginate()
+    {
+        return ImageDescription::withCount('reactions')->get()->toArray();
+    }
+
     public function addBranchesForUser($branches, $user)
     {
 

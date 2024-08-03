@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
         'first_name'=> 'user',
         'last_name'=> 'user',
         'phone_number'=> '0992992992',
+        'email'=> 'admin@admin.coom',
         'password'=>Hash::make('password'),
         'branch_id' => 1,
 

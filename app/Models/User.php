@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -108,5 +110,10 @@ class User extends Authenticatable implements JWTSubject
     public function services()
     {
         return $this->belongsToMany(Operation::class,'employee_services','user_id');
+    }
+    public function attendance()
+    {
+        return $this->hasOne(Attendance::class)
+        ->where('date', Carbon::now()->format('Y-m-d'));
     }
 }

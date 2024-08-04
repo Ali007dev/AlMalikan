@@ -80,8 +80,6 @@ Route::prefix('late')->controller(LateController::class)->group(function () {
 Route::prefix('attendance')->controller(AttendanceController::class)->group(function () {
     Route::get('user-attendance/{id}', 'getUserAttendance');
      Route::get('get-daily-attendance/{id}', 'getDailyAttendance');
-
-
 });
 
 Route::prefix('react')->controller(ReactionController::class)->group(function () {

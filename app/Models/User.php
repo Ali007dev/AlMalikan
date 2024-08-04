@@ -91,7 +91,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Late::class,'employee_id');
     }
 
-    public function attendance()
+    public function allAttendance()
     {
         return $this->hasMany(Attendance::class);
     }
@@ -103,5 +103,10 @@ class User extends Authenticatable implements JWTSubject
     public function branches()
     {
         return $this->belongsToMany(Branch::class,'user_branches','user_id');
+    }
+
+    public function attendance()
+    {
+        return $this->hasOne(Attendance::class)->where();
     }
 }

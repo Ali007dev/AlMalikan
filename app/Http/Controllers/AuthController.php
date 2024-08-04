@@ -87,9 +87,12 @@ class AuthController extends Controller
                         $request->national_id,
                         $request->description,
                         $request->position,
-                        $request->isFixed
+                        $request->isFixed,
+                        $request->ratio,
+
                     );
                     $this->employeeService->createExperience($request,$user->id);
+                    $this->employeeService->addServicesForUser($request->services,$user->id);
 
                     case RoleEnum::USER:
                         if($request->branches){

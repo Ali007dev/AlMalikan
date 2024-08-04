@@ -7,6 +7,7 @@ use App\Models\Absence;
 use App\Models\Attendance;
 use App\Models\Day;
 use App\Models\Employee;
+use App\Models\EmployeeService as EmployeeOperation;
 use App\Models\Experince;
 use App\Models\Salary;
 use App\Models\User;
@@ -15,7 +16,7 @@ use Carbon\Carbon;
 class EmployeeService
 {
 
-    public function createEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed)
+    public function createEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed,$ratio)
     {
         $user = Employee::create([
             'user_id' => $user_id,
@@ -26,7 +27,7 @@ class EmployeeService
             'salary' => $salary,
             'position' => $position,
             'isFixed' => $isFixed,
-
+            'ratio' => $ratio
 
         ]);
         $salary = Salary::create([
@@ -54,17 +55,19 @@ class EmployeeService
         Experince::insert($experiences);
     }
 
-    public function index()
+
+
+    public function index($id)
     {
-        $result = User::where('role', RoleEnum::EMPLOYEE)->with('employee')
-            ->get()->toArray();
+        $result = User::where('role', RoleEnum::EMPLOYEE)->with('employee','profileImage','services')
+            ->where('branch_id',$id)->get()->toArray();
         return $result;
     }
 
     public function show($employee)
     {
         $result = User::where('role', RoleEnum::EMPLOYEE)
-            ->with('employee.experince', 'profileImage')
+            ->with('employee.experince', 'profileImage','services')
             ->findOrFail($employee);
         return $result;
     }
@@ -84,4 +87,18 @@ class EmployeeService
             ];
         }
     }
+
+    public function addServicesForUser($services, $user)
+    {
+    $data = [];
+    foreach ($services as $service) {
+        $data[] = [
+            'operation_id' => $service,
+            'user_id' => $user,
+        ];
+    }
+
+    EmployeeOperation::insert(array_unique($data, SORT_REGULAR));
+    return true;
+}
 }

@@ -27,7 +27,7 @@ class BranchRequest extends FormRequest
             'image' => 'file' ?? null,
             'start_time'=>'required_with:end_time|date_format:H:i:s'?? null,
             'end_time'=>'required_with:start_time|date_format:H:i:s'?? null,
-            'description'=>'string'?? null,
+            'description'=>'string' ?? null,
             'working_days' => 'required',
         ];
     }

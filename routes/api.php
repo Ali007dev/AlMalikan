@@ -42,7 +42,7 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 });
 
 Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
-    Route::get('index', 'index');
+    Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
     Route::get('attendance-percent/{id}', 'attendancePercent');
 });
@@ -53,14 +53,20 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
     Route::get('get-statistic-for-branch/{id}', 'getStatisticForBranch');
+    Route::get('get-digram-statistic-for-branch/{id}', 'getDigramStatisticForBranch');
+
+
 });
 Route::prefix('user')->controller(UserController::class)->group(function () {
-    Route::get('index', 'index');
+    Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
+    Route::delete('delete/{id}', 'destroy');
 
 
     Route::post('store-images/{id}', 'storeImages');
     Route::get('before-after-images', 'getBeforeAfterImages');
+    Route::get('before-after-images-without-paginate', 'getBeforeAfterImageswithoutPaginate');
+
 });
 
 Route::prefix('late')->controller(LateController::class)->group(function () {
@@ -73,6 +79,9 @@ Route::prefix('late')->controller(LateController::class)->group(function () {
 
 Route::prefix('attendance')->controller(AttendanceController::class)->group(function () {
     Route::get('user-attendance/{id}', 'getUserAttendance');
+     Route::get('get-daily-attendance/{id}', 'getDailyAttendance');
+
+
 });
 
 Route::prefix('react')->controller(ReactionController::class)->group(function () {

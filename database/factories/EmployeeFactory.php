@@ -18,7 +18,7 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $employees = User::all();
+        $employees = User::where('role','employee')->get();
 
         return [
             'user_id' => $employees->random()->id,
@@ -27,6 +27,7 @@ class EmployeeFactory extends Factory
             'start_date' => '2024-06-26',
             'salary' => '11111',
             'national_id' => '01111111111',
+            'ratio' => 20,
 
         ];
     }

@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Attendance;
 use App\Models\Branch;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AttendanceService
 {
@@ -19,7 +21,7 @@ class AttendanceService
             $item['isAbsence'] = false;
             return $item;
         });
- 
+
         $result = collect([$absence, $attendance])
             ->flatten()
             ->sortByDesc('date')
@@ -48,14 +50,27 @@ class AttendanceService
 
     public function update($branch_id, $request)
     {
-        return  Branch::findOrFail($branch_id)->update([
+        return  Attendance::findOrFail($branch_id)->update([
             "name" => $request->name
         ]);
     }
 
     public function destroy($branch_id)
     {
-        Branch::findOrFail($branch_id)->delete();
+        Attendance::findOrFail($branch_id)->delete();
         return true;
+    }
+
+    public function getDailyAttendance($branch_id)
+    {
+        $data = [];
+        $branch = Branch::findOrFail($branch_id);
+        $employees = User::where('branch_id', $branch_id)
+            ->with(['profileImage', 'attendance' => function ($query) {
+                $query->where('date', Carbon::now()->format('Y-m-d'));
+            }])
+            ->where('role', 'employee')
+            ->get()->toArray();
+        return $employees;
     }
 }

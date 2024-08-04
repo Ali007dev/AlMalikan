@@ -46,4 +46,10 @@ class BranchController extends Controller
         $result = $this->branchService->getStatisticForBranch($id);
         return ResponseHelper::success($result);
     }
+    public function getDigramStatisticForBranch(Request $request ,$id)
+    {
+        $result = $this->branchService->getDigramStatisticForBranch($request,$id);
+        return ResponseHelper::success($result);
+    }
+
 }

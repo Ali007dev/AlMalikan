@@ -38,6 +38,7 @@ class RegisterRequest extends FormRequest
             'phone_number' => 'numeric|nullable|unique:users,phone_number,id',
             'password' => 'nullable',
             'salary' => 'nullable|numeric',
+            'ratio' => 'nullable|numeric',
             'isFixed' => 'boolean',
             'role' => 'string',
             'position' => 'string',
@@ -46,8 +47,10 @@ class RegisterRequest extends FormRequest
             'description.*.' => 'array',
             'name.*.'=> 'array',
             'national_id'=> 'numeric',
-            'branch_id'=> 'numeric|exists:branches,id',
+            'branch_id'=> 'required|numeric|exists:branches,id',
             'branches.*'=> ['exists:branches,id'],
+            'services.*'=> ['exists:operations,id'],
+
         ];
     }
 }

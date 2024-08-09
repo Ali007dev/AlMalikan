@@ -59,7 +59,7 @@ class EmployeeService
 
     public function index($id)
     {
-        $result = User::where('role', RoleEnum::EMPLOYEE)->with('employee','profileImage','services')
+        $result = User::where('role', RoleEnum::EMPLOYEE)->with('employee','profileImage','services:id,name,from,to')
             ->where('branch_id',$id)->get()->toArray();
         return $result;
     }

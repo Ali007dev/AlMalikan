@@ -15,20 +15,30 @@ class UserSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
+
+
     {
+
+
+
+
+
        User::create([
         'first_name'=> 'user',
         'last_name'=> 'user',
+        'middle_name'=> 'user',
         'phone_number'=> '0992992992',
-        'email'=> 'admin@admin.coom',
+        'email'=> 'admin@admin.com',
         'password'=>Hash::make('password'),
         'branch_id' => 1,
 
        ]);
        User::create([
         'first_name'=> 'admin',
+        'middle_name'=> 'user',
+        'phone_number'=> '0992992991',
         'last_name'=> 'admin',
-        'email'=> 'admin@gmail.coom',
+        'email'=> 'admin@gmail.com',
         'password'=>Hash::make('password'),
         'branch_id' => 1,
 

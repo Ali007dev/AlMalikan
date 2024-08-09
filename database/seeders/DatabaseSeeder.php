@@ -28,12 +28,15 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserSeeder::class);
       User::factory(10)->create();
-      Employee::factory(10)->create();
+      Operation::factory(20)->create();
+
+      $this->call(EmployeeSeeder::class);
+
+     // Employee::factory(1)->create();
       Experince::factory(10)->create();
       Complaint::factory(50)->create();
       Late::factory(30)->create();
       Attendance::factory(500)->create();
-       Operation::factory(20)->create();
        Absence::factory(20)->create();
        Day::factory(20)->create();
        Ad::factory(20)->create();

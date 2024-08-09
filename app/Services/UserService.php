@@ -17,6 +17,14 @@ class UserService
         ->get()->toArray();
     }
 
+    public function show($user)
+    {
+        $result = User::where('role', RoleEnum::USER)
+            ->with('profileImage')
+            ->findOrFail($user);
+        return $result;
+    }
+
     public function storeImages($user, $request)
     {
         $user = User::findOrFail($user);

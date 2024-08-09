@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'last_name' => fake()->name(),
             'phone_number' => fake()->unique()->phoneNumber(),
             'email_verified_at' => now(),
+            'role' => fake()->randomElement(['employee', 'user']),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'branch_id' => $branches->random()->id,

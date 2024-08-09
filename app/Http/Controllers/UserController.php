@@ -27,6 +27,12 @@ class UserController extends Controller
         $user = $this->userService->index($id);
         return ResponseHelper::success($user);
     }
+
+    public function show($id)
+    {
+        $user = $this->userService->show($id);
+        return ResponseHelper::success($user);
+    }
     public function storeImages($id,StoreImageRequest $request)
     {
         $user = $this->userService->storeImages($id,$request);

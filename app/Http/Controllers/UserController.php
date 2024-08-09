@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\ApiResponseService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Facades\Scout;
 
 class UserController extends Controller
@@ -25,13 +26,21 @@ class UserController extends Controller
     public function index($id)
     {
         $user = $this->userService->index($id);
-        return ResponseHelper::success($user);
+        return ApiResponseService::successResponse($user);
     }
 
     public function show($id)
     {
         $user = $this->userService->show($id);
-        return ResponseHelper::success($user);
+        return ApiResponseService::successResponse($user);
+    }
+
+
+    public function me()
+    {
+
+        $user = $this->userService->me();
+        return ApiResponseService::successResponse($user);
     }
     public function storeImages($id,StoreImageRequest $request)
     {

@@ -7,6 +7,7 @@ use App\Enums\RoleEnum;
 use App\Models\ImageDescription;
 use App\Models\User;
 use App\Models\UserBranch;
+use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
@@ -22,6 +23,14 @@ class UserService
         $result = User::where('role', RoleEnum::USER)
             ->with('profileImage')
             ->findOrFail($user);
+        return $result;
+    }
+
+    public function me()
+    {
+        $result = User::where('role', RoleEnum::USER)
+            ->with('profileImage')
+            ->findOrFail(Auth::user()->id);
         return $result;
     }
 

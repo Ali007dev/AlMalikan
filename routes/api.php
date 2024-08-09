@@ -60,6 +60,7 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
+    Route::get('showMe', 'me');
     Route::delete('delete/{id}', 'destroy');
     Route::post('store-images/{id}', 'storeImages');
     Route::get('before-after-images', 'getBeforeAfterImages');

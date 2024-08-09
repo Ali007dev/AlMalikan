@@ -24,9 +24,11 @@ class UserSeeder extends Seeder
 
 
        User::create([
-        'first_name'=> 'user',
-        'last_name'=> 'user',
-        'middle_name'=> 'user',
+        'first_name'=> 'admin',
+        'last_name'=> 'admin',
+        'middle_name'=> 'admin',
+        'role'=> 'admin',
+
         'phone_number'=> '0992992992',
         'email'=> 'admin@admin.com',
         'password'=>Hash::make('password'),
@@ -35,7 +37,8 @@ class UserSeeder extends Seeder
        ]);
        User::create([
         'first_name'=> 'admin',
-        'middle_name'=> 'user',
+        'role'=> 'admin',
+        'middle_name'=> 'admin',
         'phone_number'=> '0992992991',
         'last_name'=> 'admin',
         'email'=> 'admin@gmail.com',

@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LateController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\ReactionController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -104,6 +105,13 @@ Route::prefix('operation')->controller(OperationController::class)->group(functi
     Route::delete('delete/{id}', 'destroy');
 });
 
+Route::prefix('booking')->controller(ReservationController::class)->group(function () {
+    Route::get('index/{id}', 'index');
+    Route::get('show/{id}', 'show');
+    Route::post('store', 'store');
+    Route::put('update/{id}', 'update');
+    Route::delete('delete/{id}', 'destroy');
+});
 
 
 

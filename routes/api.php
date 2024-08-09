@@ -86,7 +86,7 @@ Route::prefix('react')->controller(ReactionController::class)->group(function ()
 
 
 Route::prefix('complaint')->controller(ComplaintController::class)->group(function () {
-    Route::get('index', 'index');
+    Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');

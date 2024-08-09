@@ -15,9 +15,9 @@ class ComplaintController extends Controller
     {
         $this->complaintService = $complaintService;
     }
-    public function index()
+    public function index($id)
     {
-        $result = $this->complaintService->index();
+        $result = $this->complaintService->index($id);
         return ResponseHelper::success($result);
     }
     public function store(ComplaintRequest $request)

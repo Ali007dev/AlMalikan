@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ComplaintService
 {
-    public  function index()
+    public  function index($id)
     {
-        return  Complaint::paginate(10);
+        return  Complaint::where('branch_id',$id)->get()->toArray();
     }
 
     public  function show($branch_id)

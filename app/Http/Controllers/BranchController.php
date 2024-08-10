@@ -20,6 +20,12 @@ class BranchController extends Controller
         $result = $this->branchService->index();
         return ResponseHelper::success($result);
     }
+
+    public function all($id)
+    {
+        $result = $this->branchService->all($id);
+        return ResponseHelper::success($result);
+    }
     public function store(BranchRequest $request)
     {
         $result = $this->branchService->store($request);

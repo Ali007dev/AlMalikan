@@ -55,6 +55,7 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
     Route::delete('delete/{id}', 'destroy');
     Route::get('get-statistic-for-branch/{id}', 'getStatisticForBranch');
     Route::get('get-digram-statistic-for-branch/{id}', 'getDigramStatisticForBranch');
+    Route::get('all/{id}', 'All');
 
 
 });

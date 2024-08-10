@@ -21,4 +21,9 @@ class Operation extends Model
     {
         return $this->belongsToMany(User::class, 'employee_services', 'operation_id');
     }
+
+    public function employees()
+    {
+        return $this->belongsToMany(User::class, 'employee_services', 'operation_id')->where('role','employee');
+    }
 }

@@ -21,7 +21,10 @@ class BranchService
     {
         return  Branch::withCount('client', 'employee')->get()->toArray();
     }
-
+    public  function all($id)
+    {
+        return  Branch::with('client', 'services.employees')->findOrFail($id);
+    }
     public  function show($branch_id)
     {
         return  Branch::findOrFail($branch_id);

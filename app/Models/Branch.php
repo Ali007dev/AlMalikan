@@ -31,12 +31,15 @@ class Branch extends Model
         return $this->hasMany(User::class)->where('role', 'user');
     }
 
+    public function services()
+    {
+        return $this->hasMany(Operation::class);
+    }
+
     public function employee()
     {
         return $this->hasMany(User::class)->where('role', 'employee');
     }
-
-
 
     public function absence()
     {

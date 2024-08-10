@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\FileStatusEnum;
 use App\Models\Branch;
 use App\Models\Operation;
+use App\Models\ServiceDiscount;
 
 class OperationService
 {
@@ -48,5 +49,25 @@ class OperationService
     {
         Operation::findOrFail($branch_id)->delete();
         return true;
+    }
+
+
+
+    public function createDiscount($request, $branch_id)
+    {
+        $discounts = [];
+        if ($request->has('discounts')) {
+            foreach ($request->discounts as $discount) {
+                $discounts[] = [
+                    'operation_id' => $discount['service_id'],
+                    'value' => $discount['value'],
+                    'from' => $discount['from'],
+                    'to' => $discount['to'],
+                    'branch_id' => $branch_id
+                ];
+            }
+        }
+       return ServiceDiscount::insert($discounts);
+
     }
 }

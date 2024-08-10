@@ -16,7 +16,7 @@ use Carbon\Carbon;
 class EmployeeService
 {
 
-    public function createEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed,$ratio)
+    public function createEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed, $ratio)
     {
         $user = Employee::create([
             'user_id' => $user_id,
@@ -59,15 +59,15 @@ class EmployeeService
 
     public function index($id)
     {
-        $result = User::where('role', RoleEnum::EMPLOYEE)->with('employee','profileImage','services:id,name,from,to')
-            ->where('branch_id',$id)->get()->toArray();
+        $result = User::where('role', RoleEnum::EMPLOYEE)->with('employee', 'profileImage', 'services:id,name,from,to')
+            ->where('branch_id', $id)->get()->toArray();
         return $result;
     }
 
     public function show($employee)
     {
         $result = User::where('role', RoleEnum::EMPLOYEE)
-            ->with('employee.experince', 'profileImage','services')
+            ->with('employee.experince', 'profileImage', 'services')
             ->findOrFail($employee);
         return $result;
     }
@@ -83,22 +83,22 @@ class EmployeeService
             $absencePercent = ($absence / $days) * 100;
             return [
                 ['absence' => $absencePercent,],
-               [ 'attendance' => 100 - $absencePercent]
+                ['attendance' => 100 - $absencePercent]
             ];
         }
     }
 
     public function addServicesForUser($services, $user)
     {
-    $data = [];
-    foreach ($services as $service) {
-        $data[] = [
-            'operation_id' => $service,
-            'user_id' => $user,
-        ];
-    }
+        $data = [];
+        foreach ($services as $service) {
+            $data[] = [
+                'operation_id' => $service,
+                'user_id' => $user,
+            ];
+        }
 
-    EmployeeOperation::insert(array_unique($data, SORT_REGULAR));
-    return true;
-}
+        EmployeeOperation::insert(array_unique($data, SORT_REGULAR));
+        return true;
+    }
 }

@@ -104,6 +104,9 @@ Route::prefix('operation')->controller(OperationController::class)->group(functi
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
+    Route::post('create-discount/{id}', 'createDiscount');
+
+
 });
 
 Route::prefix('booking')->controller(ReservationController::class)->group(function () {

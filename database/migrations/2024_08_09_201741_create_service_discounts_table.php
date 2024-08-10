@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('operation_id')->constrained('operations')->cascadeOnDelete();
             $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
+            $table->float('value');
+            $table->date('from');
+            $table->date('to');
 
             $table->timestamps();
         });

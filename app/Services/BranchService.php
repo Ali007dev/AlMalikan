@@ -125,24 +125,35 @@ class BranchService
         $attendance = Attendance::where('branch_id', $branch_id)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
-            ->get();
+            ->count();
 
         $absence = Absence::where('branch_id', $branch_id)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
-            ->get();
+            ->count();
 
         $late = Late::where('branch_id', $branch_id)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
-            ->get();
+            ->count();
 
+
+            if($attendance > 0){
+            $absencePercent = $absence *100 / $attendance;
+            $latePercent = $late *100 / $attendance;
+            $attendanceCountWithoutLate =  $attendance - ($late + $absence );
+            $attendancePercent = $attendanceCountWithoutLate *100 / $attendance;
+            }
         $monthData = [
-            'attendances' => $attendance,
-            'absences' => $absence,
-            'lates' => $late,
+            'attendances' => $attendancePercent ?? 0,
+            'absences' => $absencePercent ?? 0,
+            'lates' => $latePercent ?? 0,
         ];
 
+        $absencePercent = 0;
+        $latePercent = 0;
+        $attendancePercent =0;
+        $attendanceCountWithoutLate=0;
         $monthName = date('F', strtotime($date));
         $yearData[$monthName] = $monthData;
     }

@@ -107,6 +107,7 @@ Route::prefix('operation')->controller(OperationController::class)->group(functi
 
 Route::prefix('booking')->controller(ReservationController::class)->group(function () {
     Route::get('index/{id}', 'index');
+    Route::get('indexMe', 'me');
     Route::get('show/{id}', 'show');
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');

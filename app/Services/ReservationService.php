@@ -14,6 +14,11 @@ class ReservationService
         return  Reservation::where('branch_id',$id)->get()->toArray();
     }
 
+    public  function me()
+    {
+        return  Reservation::where('user_id',Auth::user()->id)->get()->toArray();
+    }
+
     public  function show($branch_id)
     {
         return  Reservation::findOrFail($branch_id);

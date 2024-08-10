@@ -19,6 +19,12 @@ class ReservationController extends Controller
         $result = $this->reservationService->index($id);
         return ApiResponseService::successResponse($result);
     }
+
+    public function me()
+    {
+        $result = $this->reservationService->me();
+        return ApiResponseService::successResponse($result);
+    }
     public function store(ReservationRequest $request)
     {
         $result = $this->reservationService->store($request);

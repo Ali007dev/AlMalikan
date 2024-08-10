@@ -24,10 +24,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Branch::factory(5)->create();
+        Branch::factory(3)->create();
 
         $this->call(UserSeeder::class);
-      User::factory(10)->create();
+      User::factory(50)->create();
       Operation::factory(20)->create();
 
       $this->call(EmployeeSeeder::class);

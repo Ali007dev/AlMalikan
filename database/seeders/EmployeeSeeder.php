@@ -26,7 +26,7 @@ class EmployeeSeeder extends Seeder
                 'pin' => '1',
                 'start_date' => '2024-06-26',
                 'salary' => '11111',
-                'position'=>'doctor',
+                'position'=>fake()->randomElement(['hr', 'doctor','clinic officer']),
                 'national_id' => '01111111111',
                 'ratio' => 20,
             ]);

@@ -22,4 +22,5 @@ class ReactionController extends Controller
         $image = $this->reactionService->react($image);
         return ApiResponseService::successResponse($image);
     }
+
 }

@@ -89,15 +89,14 @@ class BranchService
         if ($request->status === 'monthly') {
             $date = Carbon::parse($request->date)->format('Y-m');
             $data = $this->getMonthData($branch_id, $date);
-           return $this->countArray($data['attendances'],$data['absences'],$data['lates']);
+            return $this->countArray($data['attendances'], $data['absences'], $data['lates']);
         }
 
         if ($request->status === 'yearly') {
 
             $date = Carbon::parse($request->date)->format('Y');
-          return  $data = $this->getYearData($branch_id, $date);
+            return  $data = $this->getYearData($branch_id, $date);
         }
-
     }
 
 
@@ -109,57 +108,67 @@ class BranchService
         $late = Late::where('branch_id', $branch_id)->whereYear('date', $year)->whereMonth('date', $month)->get();
         return [
             'attendances' => $attendance,
-             'absences' => $absence,
+            'absences' => $absence,
             'lates' => $late
         ];
     }
 
 
     public function getYearData($branch_id, $year)
-{
-    $yearData = [];
+    {
+        $yearData = [];
 
-    for ($month = 1; $month <= 12; $month++) {
-        $date = sprintf('%d-%02d-01', $year, $month);
-
-        $attendance = Attendance::where('branch_id', $branch_id)
+        $attendanceData = Attendance::where('branch_id', $branch_id)
             ->whereYear('date', $year)
-            ->whereMonth('date', $month)
-            ->count();
+            ->get()
+            ->groupBy(function($date) {
+                return Carbon::parse($date->date)->format('m');
+            });
 
-        $absence = Absence::where('branch_id', $branch_id)
+        $absenceData = Absence::where('branch_id', $branch_id)
             ->whereYear('date', $year)
-            ->whereMonth('date', $month)
-            ->count();
+            ->get()
+            ->groupBy(function($date) {
+                return Carbon::parse($date->date)->format('m');
+            });
 
-        $late = Late::where('branch_id', $branch_id)
+        $lateData = Late::where('branch_id', $branch_id)
             ->whereYear('date', $year)
-            ->whereMonth('date', $month)
-            ->count();
+            ->get()
+            ->groupBy(function($date) {
+                return Carbon::parse($date->date)->format('m');
+            });
 
+        for ($month = 1; $month <= 12; $month++) {
+            $monthFormatted = sprintf('%02d', $month); 
 
-            if($attendance > 0){
-            $absencePercent = $absence *100 / $attendance;
-            $latePercent = $late *100 / $attendance;
-            $attendanceCountWithoutLate =  $attendance - ($late + $absence );
-            $attendancePercent = $attendanceCountWithoutLate *100 / $attendance;
+            $attendance = $attendanceData->get($monthFormatted, collect())->count();
+            $absence = $absenceData->get($monthFormatted, collect())->count();
+            $late = $lateData->get($monthFormatted, collect())->count();
+
+            if ($attendance > 0) {
+                $absencePercent = $absence * 100 / $attendance;
+                $latePercent = $late * 100 / $attendance;
+                $attendanceCountWithoutLate = $attendance - ($late + $absence);
+                $attendancePercent = $attendanceCountWithoutLate * 100 / $attendance;
+            } else {
+                $absencePercent = 0;
+                $latePercent = 0;
+                $attendancePercent = 0;
             }
-        $monthData = [
-            'attendances' => $attendancePercent ?? 0,
-            'absences' => $absencePercent ?? 0,
-            'lates' => $latePercent ?? 0,
-        ];
 
-        $absencePercent = 0;
-        $latePercent = 0;
-        $attendancePercent =0;
-        $attendanceCountWithoutLate=0;
-        $monthName = date('F', strtotime($date));
-        $yearData[$monthName] = $monthData;
+            $monthData = [
+                'attendances' => $attendancePercent,
+                'absences' => $absencePercent,
+                'lates' => $latePercent,
+            ];
+
+            $monthName = date('F', strtotime("$year-$monthFormatted-01"));
+            $yearData[$monthName] = $monthData;
+        }
+
+        return $yearData;
     }
-
-    return $yearData;
-}
 
 
     public function countArray($attendances, $absences, $lates)
@@ -172,29 +181,27 @@ class BranchService
 
         foreach (range(0, 3) as $index) {
             $attendance_count = isset($attendance_pieces[$index]) ? count($attendance_pieces[$index]) : 0;
-            $absences_count = isset($absence_pieces[$index]) ? count($absence_pieces[$index]):0;
+            $absences_count = isset($absence_pieces[$index]) ? count($absence_pieces[$index]) : 0;
             $lates_count = isset($late_pieces[$index]) ? count($late_pieces[$index]) : 0;
-            $attendanceCountWithoutLate =  $attendance_count - ($lates_count + $absences_count );
+            $attendanceCountWithoutLate =  $attendance_count - ($lates_count + $absences_count);
 
-            if( $attendance_count > 0){
-            $absencePercent = $absences_count *100 / $attendance_count;
-            $attendancePercent = $attendanceCountWithoutLate *100 / $attendance_count;
-            $latePercent = $lates_count *100 / $attendance_count;
-            }
-            else {
+            if ($attendance_count > 0) {
+                $absencePercent = $absences_count * 100 / $attendance_count;
+                $attendancePercent = $attendanceCountWithoutLate * 100 / $attendance_count;
+                $latePercent = $lates_count * 100 / $attendance_count;
+            } else {
                 $absencePercent = 0;
                 $attendancePercent = 0;
-                $latePercent = 0 ;
+                $latePercent = 0;
             }
             $result["week_" . ($index + 1)] = [
 
                 'absences_count' => $absencePercent,
                 'attendance_count' => $attendancePercent,
-                'lates_count' => $latePercent ,
+                'lates_count' => $latePercent,
             ];
         }
 
         return $result;
-
-}
+    }
 }

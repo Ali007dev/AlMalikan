@@ -56,16 +56,15 @@ class OperationService
     public function createDiscount($request, $branch_id)
     {
         $discounts = [];
-        if ($request->has('discounts')) {
-            foreach ($request->discounts as $discount) {
+            foreach ($request->services as $discount) {
                 $discounts[] = [
-                    'operation_id' => $discount['service_id'],
-                    'value' => $discount['value'],
-                    'from' => $discount['from'],
-                    'to' => $discount['to'],
+                    'operation_id' => $discount,
+                    'value' => $request->value,
+                    'from' => $request->from,
+                    'to' => $request->to,
                     'branch_id' => $branch_id
                 ];
-            }
+
         }
        return ServiceDiscount::insert($discounts);
 

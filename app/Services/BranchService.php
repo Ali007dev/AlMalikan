@@ -91,6 +91,13 @@ class BranchService
             $data = $this->getMonthData($branch_id, $date);
            return $this->countArray($data['attendances'],$data['absences'],$data['lates']);
         }
+
+        if ($request->status === 'yearly') {
+
+            $date = Carbon::parse($request->date)->format('Y');
+          return  $data = $this->getYearData($branch_id, $date);
+        }
+
     }
 
 
@@ -108,18 +115,40 @@ class BranchService
     }
 
 
-    public function getYearData($branch_id, $date)
-    {
-        list($year, $month) = explode('-', $date);
-        $attendance = Attendance::where('branch_id', $branch_id)->whereYear('date', $year)->get();
-        $absence = Absence::where('branch_id', $branch_id)->whereYear('date', $year)->get();
-        $late = Late::where('branch_id', $branch_id)->whereYear('date', $year)->get();
-        return [
-            ['attendances' => $attendance,],
-            [ 'absences' => $absence,],
-            ['lates' => $late,]
+    public function getYearData($branch_id, $year)
+{
+    $yearData = [];
+
+    for ($month = 1; $month <= 12; $month++) {
+        $date = sprintf('%d-%02d-01', $year, $month);
+
+        $attendance = Attendance::where('branch_id', $branch_id)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get();
+
+        $absence = Absence::where('branch_id', $branch_id)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get();
+
+        $late = Late::where('branch_id', $branch_id)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get();
+
+        $monthData = [
+            'attendances' => $attendance,
+            'absences' => $absence,
+            'lates' => $late,
         ];
+
+        $monthName = date('F', strtotime($date));
+        $yearData[$monthName] = $monthData;
     }
+
+    return $yearData;
+}
 
 
     public function countArray($attendances, $absences, $lates)

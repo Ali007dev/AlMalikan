@@ -41,8 +41,6 @@ class OperationController extends Controller
         $result = $this->operationService->show($id);
         return ResponseHelper::success($result);
     }
-
-
     public function createDiscount(Request $request,$id)
     {
         $result = $this->operationService->createDiscount($request,$id);

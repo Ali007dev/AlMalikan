@@ -57,5 +57,11 @@ class BranchController extends Controller
         $result = $this->branchService->getDigramStatisticForBranch($request,$id);
         return ResponseHelper::success($result);
     }
+    public function getYearData(Request $request ,$id)
+    {
+        $result = $this->branchService->getYearData($request,$id);
+        return ResponseHelper::success($result);
+    }
+
 
 }

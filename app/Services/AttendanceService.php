@@ -66,6 +66,17 @@ class AttendanceService
         $data = [];
         $branch = Branch::findOrFail($branch_id);
         $employees = User::where('branch_id', $branch_id)
+            ->with(['profileImage', 'allAttendance'])
+            ->where('role', 'employee')
+            ->get()->toArray();
+        return $employees;
+    }
+
+    public function getMonthlyAttendance($branch_id)
+    {
+        $data = [];
+        $branch = Branch::findOrFail($branch_id);
+        $employees = User::where('branch_id', $branch_id)
             ->with(['profileImage', 'attendance'])
             ->where('role', 'employee')
             ->get()->toArray();

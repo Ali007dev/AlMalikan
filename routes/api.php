@@ -106,6 +106,7 @@ Route::prefix('operation')->controller(OperationController::class)->group(functi
     Route::delete('delete/{id}', 'destroy');
     Route::post('create-discount/{id}', 'createDiscount');
 
+    Route::get('available-time/{id}', 'availableTime');
 
 });
 

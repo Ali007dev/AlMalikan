@@ -20,6 +20,8 @@ class ReservationController extends Controller
         return ApiResponseService::successResponse($result);
     }
 
+
+
     public function me()
     {
         $result = $this->reservationService->me();
@@ -28,6 +30,12 @@ class ReservationController extends Controller
     public function store(ReservationRequest $request)
     {
         $result = $this->reservationService->store($request);
+        return ApiResponseService::successResponse($result);
+    }
+
+    public function storeMe(ReservationRequest $request)
+    {
+        $result = $this->reservationService->storeMe($request);
         return ApiResponseService::successResponse($result);
     }
     public function update($id, ReservationRequest $request)

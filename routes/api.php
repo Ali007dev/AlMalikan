@@ -115,6 +115,8 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::get('indexMe', 'me');
     Route::get('show/{id}', 'show');
     Route::post('store', 'store');
+    Route::post('store-me', 'storeMe');
+
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
 });

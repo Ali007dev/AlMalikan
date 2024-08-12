@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Enums\FileStatusEnum;
 use App\Enums\RoleEnum;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\RegisterRequest;
@@ -75,9 +76,18 @@ class AuthController extends Controller
 
             ]);
 
-            $token = Auth::login($user);
 
+            $token = Auth::login($user);
             $role=$request->role;
+
+            if ($request->hasFile('image')) {
+                $image = upload($request->image, 'users/images');
+                $user->profileImage()->create([
+                    'image' => $image,
+                    'type' => FileStatusEnum::PROFILE
+                ]);
+            }
+
             switch ($role){
                 case RoleEnum::EMPLOYEE :
                     $this ->employeeService->createEmployee(

@@ -39,11 +39,11 @@ class AdsService
        $ad->update($data);
        if($request->image){
         $image = upload($request->image, 'offer/images');
-        $ad->image()->update(
+        $ad->image()->delete();
+        $ad->image()->create(
             [
                 'image' =>$image,
                 'type' => FileStatusEnum::OTHER
-
             ]
         );
 

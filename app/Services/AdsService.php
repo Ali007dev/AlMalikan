@@ -34,7 +34,21 @@ class AdsService
 
     public function update($branch_id, $request)
     {
-        return  Ad::findOrFail($branch_id)->update($request->all());
+        $data = $request->except('image');
+       $ad = Ad::findOrFail($branch_id);
+       $ad->update($data);
+       if($request->image){
+        $image = upload($request->image, 'offer/images');
+        $ad->image()->update(
+            [
+                'image' =>$image,
+                'type' => FileStatusEnum::OTHER
+
+            ]
+        );
+
+        return  $ad;
+       }
     }
 
     public function destroy($branch_id)

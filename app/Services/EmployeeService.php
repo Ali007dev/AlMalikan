@@ -90,6 +90,7 @@ class EmployeeService
 
     public function addServicesForUser($services, $user)
     {
+        if($services){
         $data = [];
         foreach ($services as $service) {
             $data[] = [
@@ -99,6 +100,7 @@ class EmployeeService
         }
 
         EmployeeOperation::insert(array_unique($data, SORT_REGULAR));
+    }
         return true;
     }
 }

@@ -23,7 +23,7 @@ class ReservationRequest extends FormRequest
     {
         if ($this->isMethod('post')){
             $rules = [
-                'user_id' => 'required|numeric|exists:users,id',
+                'user_id' => 'numeric|exists:users,id',
                 'employee_id' => 'numeric|exists:users,id',
                 'operation_id' => 'required|numeric|exists:operations,id',
                 'branch_id' => 'required|numeric|exists:branches,id',

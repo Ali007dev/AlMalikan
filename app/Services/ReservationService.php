@@ -28,6 +28,11 @@ class ReservationService
     {
      return Reservation::create($request->all());
     }
+    public  function storeMe($request)
+    {
+     $request['user_id'] = Auth::user()->id;
+     return Reservation::create($request->all());
+    }
 
     public function update($reservation, $request)
     {

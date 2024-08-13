@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
             $table->date('date');
             $table->time('time');
+            $table->time('end_time')->nullable();
             $table->enum('status',['waiting','done','declined']);
             $table->timestamps();
         });

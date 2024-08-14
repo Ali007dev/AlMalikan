@@ -77,6 +77,12 @@ class UserService
         return ImageDescription::withCount('reactions')->paginate(10);
     }
 
+
+    public function deleteBeforeAfterImages($id)
+    {
+        return ImageDescription::findOrFail($id)->delete();
+    }
+
     public function getBeforeAfterImageswithoutPaginate()
     {
         return ImageDescription::withCount('reactions')->get()->toArray();

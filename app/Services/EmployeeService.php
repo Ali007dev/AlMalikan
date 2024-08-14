@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\FileStatusEnum;
 use App\Enums\RoleEnum;
 use App\Models\Absence;
 use App\Models\Attendance;
@@ -122,5 +123,57 @@ class EmployeeService
         EmployeeOperation::insert(array_unique($data, SORT_REGULAR));
     }
         return true;
+    }
+
+    public function update($request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($request->only([
+            'first_name',
+            'last_name',
+            'middle_name',
+            'phone_number',
+            'email',
+            'password',
+            'role',
+            'branch_id',
+        ]));
+
+        if ($request->image) {
+            $image = upload($request->image, 'user/images');
+            $user->image()->delete();
+            $user->image()->create(
+                [
+                    'image' => $image,
+                    'type' => FileStatusEnum::PROFILE
+                ]
+            );
+        }
+
+        if ($request->deleted_services) {
+            foreach ($request->deleted_services as $deleted_services) {
+                Employee::where('user_id', $id)
+                    ->where('operation_id', $deleted_services)->delete();
+            }
+        }
+
+            if ($request->services) {
+                foreach ($request->services as $service) {
+                    EmployeeOperation::create([
+                        'operation_id' => $service,
+                        'user_id' => $id
+                    ]);
+                }
+            }
+
+
+        if ($user->role === 'employee') {
+            $employees = $this->updateEmployee(
+                $id,
+                $request
+
+            );
+        }
+        return $user;
     }
 }

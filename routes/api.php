@@ -69,6 +69,8 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::delete('delete/{id}', 'destroy');
     Route::post('store-images/{id}', 'storeImages');
     Route::get('before-after-images', 'getBeforeAfterImages');
+    Route::delete('delete-before-after-images/{id}', 'deleteBeforeAfterImages');
+
     Route::get('before-after-images-without-paginate', 'getBeforeAfterImageswithoutPaginate');
 
 });

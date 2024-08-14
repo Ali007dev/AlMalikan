@@ -53,6 +53,11 @@ class UserController extends Controller
         $user = $this->userService->getBeforeAfterImages();
         return ApiResponseService::successResponse($user);
     }
+    public function deleteBeforeAfterImages($id)
+    {
+        $user = $this->userService->deleteBeforeAfterImages($id);
+        return ApiResponseService::successResponse($user);
+    }
 
     public function getBeforeAfterImageswithoutPaginate()
     {

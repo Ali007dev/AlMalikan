@@ -73,52 +73,65 @@ class OperationService
     }
     public function availableTime($id, $date)
     {
-        // Fetch the operation with the given ID or fail if not found
         $operation = Operation::findOrFail($id);
-
-        // Fetch all bookings for this operation on the given date
         $bookings = Reservation::where('operation_id', $id)
                                 ->where('date', $date)
                                 ->get();
 
-        // Convert operation times from and to into Carbon instances for easy manipulation
-        $operationStart = Carbon::parse($date . ' ' . $operation->from);
-        $operationEnd = Carbon::parse($date . ' ' . $operation->to);
+        $availableSlots = [];
+        $currentTime = Carbon::parse($operation->from);
+        $endTime = Carbon::parse($operation->to);
+        $period = $operation->period;
 
-        // Initialize the available slots with the full operation window
-        $availableSlots = [
-            ['start' => $operationStart, 'end' => $operationEnd]
-        ];
+        while ($currentTime->lt($endTime)) {
+            $slotEndTime = $currentTime->copy()->addMinutes($period);
 
-        // Loop through each booking and adjust the availableSlots accordingly
-        foreach ($bookings as $booking) {
-            $bookingStart = Carbon::parse($date . ' ' . $booking->time);
-            $bookingEnd = Carbon::parse($date . ' ' . $booking->end_time);
+            $isAvailable = true;
 
-            $newSlots = [];
+            foreach ($bookings as $booking) {
+                $bookingStart = Carbon::parse($booking->time);
+                $bookingEnd = Carbon::parse($booking->end_time);
 
-            foreach ($availableSlots as $slot) {
-                if ($bookingStart <= $slot['end'] && $bookingEnd >= $slot['start']) {
-                    if ($bookingStart > $slot['start']) {
-                        $newSlots[] = ['start' => $slot['start'], 'end' => $bookingStart];
-                    }
-
-                    if ($bookingEnd < $slot['end']) {
-                        $newSlots[] = ['start' => $bookingEnd, 'end' => $slot['end']];
-                    }
-                } else {
-                    $newSlots[] = $slot;
+                if ($currentTime->lt($bookingEnd) && $slotEndTime->gt($bookingStart)) {
+                    $isAvailable = false;
+                    break;
                 }
             }
 
-            $availableSlots = $newSlots;
+            if ($isAvailable && $slotEndTime->lte($endTime)) {
+                $availableSlots[] = [
+                    'from' => $currentTime->format('H:i'),
+                    'to' => $slotEndTime->format('H:i'),
+                ];
+            }
+
+            // Move to the next slot
+            $currentTime->addMinutes($period);
         }
 
-        $formattedSlots = array_map(function ($slot) {
-            return ['start' => $slot['start']->toTimeString(), 'end' => $slot['end']->toTimeString()];
-        }, $availableSlots);
+        if ($bookings->isEmpty()) {
+            $defaultSlots = [];
+            $currentTime = Carbon::parse($operation->from);
 
-        return $formattedSlots;
+            while ($currentTime->lt($endTime)) {
+                $slotEndTime = $currentTime->copy()->addMinutes($period);
+
+                if ($slotEndTime->lte($endTime)) {
+                    $defaultSlots[] = [
+                        'from' => $currentTime->format('H:i'),
+                        'to' => $slotEndTime->format('H:i'),
+                    ];
+                }
+
+                $currentTime->addMinutes($period);
+            }
+
+            return $defaultSlots;
+        }
+
+        return $availableSlots;
     }
+
+
 
 }

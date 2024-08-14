@@ -32,54 +32,10 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->update($request->only([
-            'first_name',
-            'last_name',
-            'middle_name',
-            'phone_number',
-            'email',
-            'password',
-            'role',
-            'branch_id',
-        ]));
 
-        if ($request->image) {
-            $image = upload($request->image, 'user/images');
-            $user->image()->delete();
-            $user->image()->create(
-                [
-                    'image' => $image,
-                    'type' => FileStatusEnum::PROFILE
-                ]
-            );
-        }
+        $employees = $this->employeeService->update($request,$id);
+        return ApiResponseService::successResponse($employees);
 
-        if ($request->deleted_services) {
-            foreach ($request->deleted_services as $deleted_services) {
-                ModelsEmployeeService::where('user_id', $id)
-                    ->where('operation_id', $deleted_services)->delete();
-            }
-        }
-        
-            if ($request->services) {
-                foreach ($request->services as $service) {
-                    ModelsEmployeeService::create([
-                        'operation_id' => $service,
-                        'user_id' => $id
-                    ]);
-                }
-            }
-
-
-        if ($user->role === 'employee') {
-            $employees = $this->employeeService->updateEmployee(
-                $id,
-                $request
-
-            );
-        }
-        return $user;
     }
 
     public function show($employee)

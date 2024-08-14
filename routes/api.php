@@ -46,6 +46,8 @@ Route::prefix('employee')->controller(EmployeeController::class)->group(function
     Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
     Route::get('attendance-percent/{id}', 'attendancePercent');
+    Route::put('update/{id}', 'update');
+
 });
 Route::prefix('branch')->controller(BranchController::class)->group(function () {
     Route::get('index', 'index');
@@ -61,6 +63,7 @@ Route::prefix('branch')->controller(BranchController::class)->group(function () 
 });
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('index/{id}', 'index');
+
     Route::get('show/{id}', 'show');
     Route::get('showMe', 'me');
     Route::delete('delete/{id}', 'destroy');

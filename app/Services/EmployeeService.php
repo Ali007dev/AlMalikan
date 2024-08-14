@@ -40,6 +40,24 @@ class EmployeeService
     }
 
 
+    public function updateEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed, $ratio)
+    {
+        $user = Employee::where('user_id',$user_id)->update([
+            'user_id' => $user_id,
+            'pin' => $pin,
+            'start_date' => $start_date,
+            'national_id' => $national_id,
+            'description' => $description,
+            'salary' => $salary,
+            'position' => $position,
+            'isFixed' => $isFixed,
+            'ratio' => $ratio
+        ]);
+
+        return true;
+    }
+
+
     public function createExperience($request, $employee_id)
     {
         $experiences = [];

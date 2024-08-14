@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Enums\FileStatusEnum;
 use App\Helper\ResponseHelper;
+use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Employee;
+use App\Models\EmployeeService as ModelsEmployeeService;
+use App\Models\Operation;
 use App\Models\User;
 use App\Services\ApiResponseService;
 use App\Services\EmployeeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Constraint\Operator;
 
 class EmployeeController extends Controller
 {
@@ -23,48 +28,58 @@ class EmployeeController extends Controller
         return ApiResponseService::successResponse($employees);
     }
 
-    public function store(Request $request)
-    {
-    }
+    public function store(Request $request) {}
 
-    public function update(Request $request,$id)
+    public function update(UpdateEmployeeRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'middle_name' => $request->middle_name,
-                'phone_number' => $request->phone_number,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role'=> $request->role,
-                'branch_id'=> $request->branch_id
-        ]);
+        $user->update($request->only([
+            'first_name',
+            'last_name',
+            'middle_name',
+            'phone_number',
+            'email',
+            'password',
+            'role',
+            'branch_id',
+        ]));
 
-        if($request->image){
+        if ($request->image) {
             $image = upload($request->image, 'user/images');
             $user->image()->delete();
             $user->image()->create(
                 [
-                    'image' =>$image,
+                    'image' => $image,
                     'type' => FileStatusEnum::PROFILE
                 ]
             );
         }
 
-        if ($user->role === 'employee'){
-        $employees = $this->employeeService->updateEmployee($id,
-        $request->pin,$request->start_date,
-        $request->salary,
-        $request->national_id,
-        $request->description,
-        $request->position,
-        $request->isFixed,
-        $request->ratio,);
+        if ($request->deleted_services) {
+            foreach ($request->deleted_services as $deleted_services) {
+                ModelsEmployeeService::where('user_id', $id)
+                    ->where('operation_id', $deleted_services)->delete();
+            }
+        }
+        
+            if ($request->services) {
+                foreach ($request->services as $service) {
+                    ModelsEmployeeService::create([
+                        'operation_id' => $service,
+                        'user_id' => $id
+                    ]);
+                }
+            }
+
+
+        if ($user->role === 'employee') {
+            $employees = $this->employeeService->updateEmployee(
+                $id,
+                $request
+
+            );
         }
         return $user;
-
-
     }
 
     public function show($employee)
@@ -78,7 +93,4 @@ class EmployeeController extends Controller
         $employees = $this->employeeService->attendancePercent($employee);
         return ApiResponseService::successResponse($employees);
     }
-
-
-
 }

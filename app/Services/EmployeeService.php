@@ -40,19 +40,21 @@ class EmployeeService
     }
 
 
-    public function updateEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed, $ratio)
+    public function updateEmployee($user_id,$request)
     {
-        $user = Employee::where('user_id',$user_id)->update([
-            'user_id' => $user_id,
-            'pin' => $pin,
-            'start_date' => $start_date,
-            'national_id' => $national_id,
-            'description' => $description,
-            'salary' => $salary,
-            'position' => $position,
-            'isFixed' => $isFixed,
-            'ratio' => $ratio
-        ]);
+        $user = Employee::where('user_id',$user_id);
+        $user   ->update(
+            $request->only([
+            'pin',
+            'start_date',
+             'national_id',
+            'description',
+            'salary',
+             'position',
+            'isFixed',
+             'ratio'
+             ])
+        );
 
         return true;
     }

@@ -151,9 +151,9 @@ class EmployeeService
         }
 
         if ($request->deleted_services) {
-            foreach ($request->deleted_services as $deleted_services) {
-                Employee::where('user_id', $id)
-                    ->where('operation_id', $deleted_services)->delete();
+            foreach ($request->deleted_services as $deleted_service) {
+                EmployeeOperation::where('user_id', $id)
+                    ->where('operation_id', $deleted_service)->delete();
             }
         }
 

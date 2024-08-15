@@ -72,6 +72,8 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::post('store-images/{id}', 'storeImages');
     Route::post('add-branches/{id}', 'addBranchesForUser');
 
+
+
     Route::get('before-after-images', 'getBeforeAfterImages');
     Route::delete('delete-before-after-images/{id}', 'deleteBeforeAfterImages');
 
@@ -131,9 +133,12 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::post('store-me', 'storeMe');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
-
+    Route::get('user-percentage/{id}', 'userPercentage');
     Route::get('show-user/{id}', 'showUser');
     Route::get('show-employee/{id}', 'showEmployee');
+
+    Route::get('recent-with-user/{id}', 'recentWithUser');
+    Route::get('archive-with-user/{id}', 'archiveWithUser');
 });
 
 

@@ -48,7 +48,6 @@ class OperationController extends Controller
     }
     public function availableTime(Request $request,$id)
     {
-
         $result = $this->operationService->availableTime($id, $request->date);
         return ResponseHelper::success($result);
     }

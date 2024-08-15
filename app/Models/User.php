@@ -124,4 +124,15 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Reservation::class, 'employee_id');
     }
+
+    public function recentCustomerReservation()
+    {
+        return $this->hasMany(Reservation::class, 'user_id')->whereDate('date', '>=', Carbon::today())
+        ;
+    }
+    public function archiveCustomerReservation()
+    {
+        return $this->hasMany(Reservation::class, 'user_id')->whereDate('date', '<', Carbon::today())
+        ;
+    }
 }

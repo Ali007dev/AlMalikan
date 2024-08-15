@@ -16,8 +16,7 @@ use Carbon\Carbon;
 
 class EmployeeService
 {
-
-    public function createEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed, $ratio)
+   public function createEmployee($user_id, $pin, $start_date, $salary, $national_id, $description, $position, $isFixed, $ratio)
     {
         $user = Employee::create([
             'user_id' => $user_id,
@@ -103,8 +102,9 @@ class EmployeeService
         } else {
             $absencePercent = ($absence / $days) * 100;
             return [
-                ['absence' => $absencePercent,],
-                ['attendance' => 100 - $absencePercent]
+                'absence' => $absencePercent,
+                'attendance' => 100 - $absencePercent,
+                'total' => 100
             ];
         }
     }

@@ -19,8 +19,11 @@ class ReservationController extends Controller
         $result = $this->reservationService->index($id);
         return ApiResponseService::successResponse($result);
     }
-
-
+    public function archive($id)
+    {
+        $result = $this->reservationService->index($id);
+        return ApiResponseService::successResponse($result);
+    }
 
     public function me()
     {
@@ -62,6 +65,25 @@ class ReservationController extends Controller
     public function showUser($id)
     {
         $result = $this->reservationService->showUser($id);
+        return ApiResponseService::successResponse($result);
+    }
+
+
+    public function userPercentage($id)
+    {
+        $result = $this->reservationService->userPercentage($id);
+        return ApiResponseService::successResponse($result);
+    }
+
+    public function archiveWithUser($id)
+    {
+        $result = $this->reservationService->archiveWithUser($id);
+        return ApiResponseService::successResponse($result);
+    }
+
+    public function recentWithUser($id)
+    {
+        $result = $this->reservationService->recentWithUser($id);
         return ApiResponseService::successResponse($result);
     }
 }

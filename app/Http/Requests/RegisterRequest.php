@@ -47,7 +47,7 @@ class RegisterRequest extends FormRequest
             'description.*.' => 'array',
             'name.*.'=> 'array',
             'national_id'=> 'numeric',
-            'branch_id'=> 'required|numeric|exists:branches,id',
+            'branch_id'=> 'numeric|exists:branches,id',
             'branches.*'=> ['exists:branches,id'],
             'services.*'=> ['exists:operations,id'],
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\ResponseHelper;
 use App\Http\Requests\StoreImageRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Complaint;
 use App\Models\Decicion;
 use App\Models\Experince;
@@ -32,6 +33,12 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->userService->show($id);
+        return ApiResponseService::successResponse($user);
+    }
+
+    public function update(UpdateEmployeeRequest $request,$id)
+    {
+        $user = $this->userService->update($request,$id);
         return ApiResponseService::successResponse($user);
     }
 

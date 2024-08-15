@@ -14,8 +14,8 @@ class UserService
     public function index($id)
     {
         return User::where('role', RoleEnum::USER)
-        ->where('branch_id',$id)->with('profileImage','branches:id,name')
-        ->get()->toArray();
+            ->where('branch_id', $id)->with('profileImage', 'branches:id,name')
+            ->get()->toArray();
     }
 
     public function show($user)
@@ -91,20 +91,49 @@ class UserService
     public function addBranchesForUser($branches, $user)
     {
 
-    $data = [];
-    foreach ($branches as $branch) {
-        $data[] = [
-            'branch_id' => $branch,
-            'user_id' => $user,
-        ];
+        $data = [];
+        foreach ($branches as $branch) {
+            $data[] = [
+                'branch_id' => $branch,
+                'user_id' => $user,
+            ];
+        }
+        UserBranch::insert(array_unique($data, SORT_REGULAR));
+        return true;
     }
-    UserBranch::insert(array_unique($data, SORT_REGULAR));
-    return true;
-}
 
-public function destroy($id)
+    public function destroy($id)
     {
         User::findOrFail($id)->delete();
         return true;
+    }
+
+
+    public function update($request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($request->only([
+            'first_name',
+            'last_name',
+            'middle_name',
+            'phone_number',
+            'email',
+            'password',
+            'role',
+            'branch_id',
+        ]));
+
+        if ($request->image) {
+            $image = upload($request->image, 'user/images');
+            $user->image()->delete();
+            $user->image()->create(
+                [
+                    'image' => $image,
+                    'type' => FileStatusEnum::PROFILE
+                ]
+            );
+        }
+
+        return $user;
     }
 }

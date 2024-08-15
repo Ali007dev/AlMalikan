@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('middle_name')->nullable();
-            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->cascadeOnDelete();
             $table->string('phone_number')->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->enum('role',['employee','admin','user']);

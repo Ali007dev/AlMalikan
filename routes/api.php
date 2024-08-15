@@ -70,6 +70,8 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::get('showMe', 'me');
     Route::delete('delete/{id}', 'destroy');
     Route::post('store-images/{id}', 'storeImages');
+    Route::post('add-branches/{id}', 'addBranchesForUser');
+
     Route::get('before-after-images', 'getBeforeAfterImages');
     Route::delete('delete-before-after-images/{id}', 'deleteBeforeAfterImages');
 

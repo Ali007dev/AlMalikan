@@ -72,6 +72,14 @@ class UserController extends Controller
         return ApiResponseService::successResponse($user);
     }
 
+    public function addBranchesForUser(Request $request,$id)
+    {
+        $user = $this->userService->addBranchesForUser($request->branches,$id);
+        return ApiResponseService::successResponse($user);
+    }
+
+
+
     public function search(Request $request)
     {
         $query = $request->input('query');

@@ -21,9 +21,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $guarded = [
-
-    ];
+    protected $guarded = [];
 
     public function queueMakeSearchable()
     {
@@ -53,7 +51,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-     /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -75,7 +73,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function employee()
     {
-        return $this->hasOne(Employee::class,'user_id');
+        return $this->hasOne(Employee::class, 'user_id');
     }
 
     public function profileImage()
@@ -90,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function late()
     {
-        return $this->hasMany(Late::class,'employee_id');
+        return $this->hasMany(Late::class, 'employee_id');
     }
 
     public function allAttendance()
@@ -99,31 +97,31 @@ class User extends Authenticatable implements JWTSubject
     }
     public function absence()
     {
-        return $this->hasMany(Absence::class,'user_id');
+        return $this->hasMany(Absence::class, 'user_id');
     }
 
     public function branches()
     {
-        return $this->belongsToMany(Branch::class,'user_branches','user_id');
+        return $this->belongsToMany(Branch::class, 'user_branches', 'user_id');
     }
 
     public function services()
     {
-        return $this->belongsToMany(Operation::class,'employee_services','user_id');
+        return $this->belongsToMany(Operation::class, 'employee_services', 'user_id');
     }
     public function attendance()
     {
         return $this->hasOne(Attendance::class)
-        ->where('date', Carbon::now()->format('Y-m-d'));
+            ->where('date', Carbon::now()->format('Y-m-d'));
     }
 
     public function customerReservation()
     {
-        return $this->hasMany(Reservation::class,'user_id');
+        return $this->hasMany(Reservation::class, 'user_id');
     }
 
     public function employeeReservation()
     {
-        return $this->hasMany(Reservation::class,'employee_id');
+        return $this->hasMany(Reservation::class, 'employee_id');
     }
 }

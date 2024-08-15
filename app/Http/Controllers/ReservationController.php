@@ -53,4 +53,15 @@ class ReservationController extends Controller
         $result = $this->reservationService->show($id);
         return ApiResponseService::successResponse($result);
     }
+
+    public function showEmployee($id)
+    {
+        $result = $this->reservationService->showEmployee($id);
+        return ApiResponseService::successResponse($result);
+    }
+    public function showUser($id)
+    {
+        $result = $this->reservationService->showUser($id);
+        return ApiResponseService::successResponse($result);
+    }
 }

@@ -108,6 +108,10 @@ Route::prefix('complaint')->controller(ComplaintController::class)->group(functi
 Route::prefix('operation')->controller(OperationController::class)->group(function () {
     Route::get('index/{id}', 'index');
     Route::get('show/{id}', 'show');
+
+
+
+
     Route::post('store', 'store');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
@@ -125,6 +129,9 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::post('store-me', 'storeMe');
     Route::put('update/{id}', 'update');
     Route::delete('delete/{id}', 'destroy');
+
+    Route::get('show-user/{id}', 'showUser');
+    Route::get('show-employee/{id}', 'showEmployee');
 });
 
 

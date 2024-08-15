@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Branch;
 use App\Models\Reservation;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,9 +20,19 @@ class ReservationService
         return  Reservation::where('user_id',Auth::user()->id)->get()->toArray();
     }
 
-    public  function show($branch_id)
+    public  function show($operation)
     {
-        return  Reservation::findOrFail($branch_id);
+        return  Reservation::findOrFail($operation);
+    }
+
+    public  function showUser($user)
+    {
+        return  User::where('role','user')->with('customerReservation')->findOrFail($user);
+    }
+
+    public  function showEmployee($user)
+    {
+        return  User::where('role','employee')->with('employeeReservation')->findOrFail($user);
     }
 
     public  function store($request)

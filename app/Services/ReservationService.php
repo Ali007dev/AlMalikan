@@ -56,7 +56,12 @@ class ReservationService
         }
 
         if ($totalReservations == 0) {
-            return 0;
+            $result =
+         [
+            'user_booking' =>0,
+            'other_booking' => 0,
+            'total' => 100
+         ];
         }
 
         $result =

@@ -55,23 +55,24 @@ class ReservationService
             }
         }
 
-        if ($totalReservations == 0) {
+        if ($totalReservations != 0) {
             $result =
-         [
-            'user_booking' =>0,
-            'other_booking' => 0,
-            'total' => 100
-         ];
+            [
+               'user_booking' => ($userCount / $totalReservations) * 100,
+               'other_booking' => 100 - ($userCount / $totalReservations) * 100,
+               'total' => 100
+            ];
         }
 
-        else{
-        $result =
-         [
-            'user_booking' => ($userCount / $totalReservations) * 100,
-            'other_booking' => 100 - ($userCount / $totalReservations) * 100,
-            'total' => 100
-         ];
+        if ($totalReservations == 0) {
+            $result =
+            [
+               'user_booking' => 0,
+               'other_booking' => 0,
+               'total' => 100
+            ];
         }
+
         return $result;
     }
     public  function showUser($user)

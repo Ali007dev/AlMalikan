@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,11 @@ class Reservation extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $appends = ['day'];
 
+    public function getDayAttribute(){
+        return Carbon::parse($this->date)->format('l');
+    }
     protected $with=['customer:id,first_name,last_name','employee:id,first_name,last_name','branch:id,name','service:id,name'];
     public function customer()
     {

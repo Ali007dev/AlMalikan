@@ -13,7 +13,7 @@ class ReservationService
 {
     public  function index($id)
     {
-        return  Reservation::where('branch_id', $id)->get()->toArray();
+        return  Reservation::where('branch_id', $id)->get();
     }
 
     public  function archive($id)

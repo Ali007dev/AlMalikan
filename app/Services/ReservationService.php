@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Branch;
+use App\Models\Operation;
 use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
@@ -51,26 +52,25 @@ class ReservationService
             if ($reservation['user_id'] == $operation) {
 
                 $userCount++;
-
             }
         }
 
         if ($totalReservations != 0) {
             $result =
-            [
-               'user_booking' => ($userCount / $totalReservations) * 100,
-               'other_booking' => 100 - ($userCount / $totalReservations) * 100,
-               'total' => 100
-            ];
+                [
+                    'user_booking' => ($userCount / $totalReservations) * 100,
+                    'other_booking' => 100 - ($userCount / $totalReservations) * 100,
+                    'total' => 100
+                ];
         }
 
         if ($totalReservations == 0) {
             $result =
-            [
-               'user_booking' => 0,
-               'other_booking' => 0,
-               'total' => 100
-            ];
+                [
+                    'user_booking' => 0,
+                    'other_booking' => 0,
+                    'total' => 100
+                ];
         }
 
         return $result;
@@ -87,7 +87,23 @@ class ReservationService
 
     public  function store($request)
     {
-        return Reservation::create($request->all());
+        $user = User::findOrFail($request['user_id']);
+        $operation = Operation::findOrFail($request['operation_id']);
+        $formattedPrice = number_format($operation->price, 2);
+
+        $reservation = Reservation::create($request->all());
+        $message =
+            <<<EOL
+Hi {$user->first_name},
+
+Your reservation for {$operation->name} has been added on {$request->date} at {$request->time}.
+
+Price: \${$formattedPrice}
+
+Welcome to Almalikan.
+EOL;
+        $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+        return $reservation;
     }
     public  function storeMe($request)
     {

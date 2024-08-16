@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ResponseHelper;
+use App\Http\Requests\AttendanceFileRequest;
 use App\Services\AttendanceService;
+use App\Services\FingerPrintService;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -29,6 +31,13 @@ class AttendanceController extends Controller
     public function getMonthlyAttendance($user)
     {
         $result  = $this->attendanceService->getDailyAttendance($user);
+        return ResponseHelper::success($result);
+    }
+
+    public function file(AttendanceFileRequest $request)
+    {
+
+        $result  = app(FingerPrintService::class)->processAttendanceFile($request);
         return ResponseHelper::success($result);
     }
 }

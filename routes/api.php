@@ -74,7 +74,7 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 
 
 
-    Route::get('before-after-images', 'getBeforeAfterImages');
+    Route::get('before-after-images/{id}', 'getBeforeAfterImages');
     Route::delete('delete-before-after-images/{id}', 'deleteBeforeAfterImages');
 
     Route::get('before-after-images-without-paginate', 'getBeforeAfterImageswithoutPaginate');
@@ -92,6 +92,9 @@ Route::prefix('late')->controller(LateController::class)->group(function () {
 Route::prefix('attendance')->controller(AttendanceController::class)->group(function () {
     Route::get('user-attendance/{id}', 'getUserAttendance');
      Route::get('get-daily-attendance/{id}', 'getDailyAttendance');
+     Route::post('file', 'file');
+
+
 });
 
 Route::prefix('react')->controller(ReactionController::class)->group(function () {
@@ -132,6 +135,8 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::post('store', 'store');
     Route::post('store-me', 'storeMe');
     Route::put('update/{id}', 'update');
+    Route::put('decline/{id}', 'decline');
+
     Route::delete('delete/{id}', 'destroy');
     Route::get('user-percentage/{id}', 'userPercentage');
     Route::get('show-user/{id}', 'showUser');

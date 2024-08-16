@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('before_id')->constrained('images')->cascadeOnDelete();
             $table->foreignId('after_id')->constrained('images')->cascadeOnDelete();
+            $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete();
             $table->string('description')->nullable();
             $table->timestamps();
         });

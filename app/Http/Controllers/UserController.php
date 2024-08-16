@@ -55,9 +55,9 @@ class UserController extends Controller
         return ApiResponseService::successResponse($user);
     }
 
-    public function getBeforeAfterImages()
+    public function getBeforeAfterImages($id)
     {
-        $user = $this->userService->getBeforeAfterImages();
+        $user = $this->userService->getBeforeAfterImages($id);
         return ApiResponseService::successResponse($user);
     }
     public function deleteBeforeAfterImages($id)

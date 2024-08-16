@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\FileStatusEnum;
 use App\Enums\RoleEnum;
+use App\Models\Branch;
 use App\Models\ImageDescription;
 use App\Models\User;
 use App\Models\UserBranch;
@@ -34,16 +35,16 @@ class UserService
         return $result;
     }
 
-    public function storeImages($user, $request)
+    public function storeImages($branchId, $request)
     {
-        $user = User::findOrFail($user);
+        $branch = Branch::findOrFail($branchId);
 
         $descriptions = [];
 
         foreach ($request->images as $image) {
             $imagePath = upload($image['image'], 'user/images');
 
-            $storedImage  = $user->images()->create([
+            $storedImage  = $branch->image()->create([
                 'image' => $imagePath,
                 'type' => $image['type'],
             ]);
@@ -60,6 +61,8 @@ class UserService
             'before_id' => $before,
             'after_id' => $after,
             'description' => $request->description,
+            'branch_id' => $branchId
+
         ];
         ImageDescription::insert($descriptions);
 
@@ -72,9 +75,9 @@ class UserService
         }
     }
 
-    public function getBeforeAfterImages()
+    public function getBeforeAfterImages($id)
     {
-        return ImageDescription::withCount('reactions')->paginate(10);
+        return ImageDescription::where('branch_id',$id)->withCount('reactions')->paginate(10);
     }
 
 

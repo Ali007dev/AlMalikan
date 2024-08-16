@@ -86,4 +86,10 @@ class ReservationController extends Controller
         $result = $this->reservationService->recentWithUser($id);
         return ApiResponseService::successResponse($result);
     }
+
+    public function decline($id)
+    {
+        $result = $this->reservationService->decline($id);
+        return ApiResponseService::successResponse($result);
+    }
 }

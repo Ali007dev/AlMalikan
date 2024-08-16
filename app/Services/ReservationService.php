@@ -116,6 +116,28 @@ EOL;
         return  Reservation::findOrFail($reservation)->update($request->all());
     }
 
+    public function decline($reservation)
+    {
+        $res =Reservation::findOrFail($reservation);
+       $res ->update([
+            'status' => 'declined'
+        ]);
+        $user = User::findOrFail($res->user_id);
+        $operation = Operation::findOrFail($res->operation_id);
+        $message =
+        <<<EOL
+Hi {$user->first_name},
+
+Your reservation for {$operation->name} has been canceled .
+We are sorry for that.
+Welcome to Almalikan.
+EOL;
+    $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+
+        return $res;
+    }
+
+
     public function destroy($id)
     {
         return Reservation::whereIn('id', $id)->delete();

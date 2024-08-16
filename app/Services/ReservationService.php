@@ -64,12 +64,14 @@ class ReservationService
          ];
         }
 
+        else{
         $result =
          [
             'user_booking' => ($userCount / $totalReservations) * 100,
             'other_booking' => 100 - ($userCount / $totalReservations) * 100,
             'total' => 100
          ];
+        }
         return $result;
     }
     public  function showUser($user)

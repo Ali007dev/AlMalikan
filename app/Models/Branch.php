@@ -43,15 +43,14 @@ class Branch extends Model
 
     public function absence()
     {
-        $date = request()->query('date');
         $result = $this->hasMany(Absence::class);
-        return app(FilterService::class)->filterDate($result, $date, 'date');
+        return$result ;
     }
     public function attendance()
     {
-        $date = request()->query('date');
+       
         $result = $this->hasMany(Attendance::class);
-        return app(FilterService::class)->filterDate($result, $date, 'date');
+        return  $result;
     }
     public function late()
     {

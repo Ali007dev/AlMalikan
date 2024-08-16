@@ -11,24 +11,30 @@ class AttendanceService
 {
 
     public function getUserAttendance($userId)
-    {
-        $user = User::findOrFail($userId);
-        $absence = $user->absence()->get()->map(function ($item) {
-            $item['isAbsence'] = true;
-            return $item;
-        });
-        $attendance = $user->attendance()->get()->map(function ($item) {
-            $item['isAbsence'] = false;
-            return $item;
-        });
+{
+    $user = User::findOrFail($userId);
 
-        $result = collect([$absence, $attendance])
-            ->flatten()
-            ->sortByDesc('date')
-            ->values()
-            ->toArray();
-        return $result;
-    }
+    $absence = $user->absence()->get()->map(function ($item) {
+        $item['isAbsence'] = true;
+        return $item;
+    });
+
+    $attendance = $user->attendance()->get()->map(function ($item) {
+        $item['isAbsence'] = false;
+        return $item;
+    });
+
+    dd($absence, $attendance);
+
+    $result = $absence->merge($attendance)
+                      ->sortByDesc('date')
+                      ->values()
+                      ->toArray();
+
+    return $result;
+}
+
+
 
 
     public  function index()

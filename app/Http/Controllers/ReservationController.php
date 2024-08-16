@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationRequest;
 use App\Http\Resources\ReservationResource;
+use App\Http\Resources\UserReservationResource;
 use App\Services\ApiResponseService;
 use App\Services\ReservationService;
 use Illuminate\Http\Request;
@@ -88,9 +89,27 @@ class ReservationController extends Controller
         return ApiResponseService::successResponse($result);
     }
 
+
+    public function archiveMe()
+    {
+        $result = $this->reservationService->archiveMe();
+        return ApiResponseService::successResponse($result);
+    }
+
+    public function recentMe()
+    {
+        $result = $this->reservationService->recentMe();
+        return ApiResponseService::successResponse($result);
+    }
+
     public function decline($id)
     {
         $result = $this->reservationService->decline($id);
+        return ApiResponseService::successResponse($result);
+    }
+    public function accept($id)
+    {
+        $result = $this->reservationService->accept($id);
         return ApiResponseService::successResponse($result);
     }
 }

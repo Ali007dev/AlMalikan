@@ -34,7 +34,7 @@ class ReservationResource extends JsonResource
 
             'customer' => new CustomerResource($this->customer) ?? null,
             'employee' => $this->employee ? new EmployeeResource($this->employee) : null,
-            // 'branch' => new BranchResource($this->branch) ?? null,
+             //'branch' => new BranchResource($this->branch) ?? null,
             'service' => new ServiceResource($this->service)?? null
                 ];    }
 }

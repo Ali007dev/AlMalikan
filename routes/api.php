@@ -136,6 +136,7 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::post('store-me', 'storeMe');
     Route::put('update/{id}', 'update');
     Route::put('decline/{id}', 'decline');
+    Route::put('accept/{id}', 'accept');
 
     Route::delete('delete/{id}', 'destroy');
     Route::get('user-percentage/{id}', 'userPercentage');
@@ -144,6 +145,9 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
 
     Route::get('recent-with-user/{id}', 'recentWithUser');
     Route::get('archive-with-user/{id}', 'archiveWithUser');
+
+    Route::get('recent-me', 'recentMe');
+    Route::get('archive-me', 'archiveMe');
 });
 
 

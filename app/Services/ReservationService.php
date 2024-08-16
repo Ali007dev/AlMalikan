@@ -29,6 +29,15 @@ class ReservationService
         return  User::where('id', $id)->with('recentCustomerReservation')->get()->toArray();
     }
 
+    public  function archiveMe()
+    {
+        return  User::where('id', Auth::user()->id)->with('archiveCustomerReservation')->get();
+    }
+    public  function recentMe()
+    {
+        return  User::where('id', Auth::user()->id)->with('recentCustomerReservation')->get();
+    }
+
     public  function me()
     {
         return  Reservation::where('user_id', Auth::user()->id)->get()->toArray();
@@ -92,17 +101,17 @@ class ReservationService
         $formattedPrice = number_format($operation->price, 2);
 
         $reservation = Reservation::create($request->all());
-        $message =
-            <<<EOL
-Hi {$user->first_name},
+//         $message =
+//             <<<EOL
+// Hi {$user->first_name},
 
-Your reservation for {$operation->name} has been added on {$request->date} at {$request->time}.
+// Your reservation for {$operation->name} has been added on {$request->date} at {$request->time}.
 
-Price: \${$formattedPrice}
+// Price: \${$formattedPrice}
 
-Welcome to Almalikan.
-EOL;
-        $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+// Welcome to Almalikan.
+// EOL;
+//         $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
         return $reservation;
     }
     public  function storeMe($request)
@@ -118,21 +127,47 @@ EOL;
 
     public function decline($reservation)
     {
-        $res =Reservation::findOrFail($reservation);
-       $res ->update([
+        $res = Reservation::findOrFail($reservation);
+        $res->update([
             'status' => 'declined'
         ]);
         $user = User::findOrFail($res->user_id);
         $operation = Operation::findOrFail($res->operation_id);
-        $message =
-        <<<EOL
-Hi {$user->first_name},
+        $formattedPrice = number_format($operation->price, 2);
 
-Your reservation for {$operation->name} has been canceled .
-We are sorry for that.
-Welcome to Almalikan.
-EOL;
-    $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+//         $message =
+//             <<<EOL
+// Hi {$user->first_name},
+
+// Your reservation for {$operation->name} has been added on {$res->date} at {$res->time}.
+
+// Price: \${$formattedPrice}
+
+// Welcome to Almalikan.
+// EOL;
+//         $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+
+        return $res;
+    }
+
+
+    public function accept($reservation)
+    {
+        $res = Reservation::findOrFail($reservation);
+        $res->update([
+            'status' => 'done'
+        ]);
+        $user = User::findOrFail($res->user_id);
+        $operation = Operation::findOrFail($res->operation_id);
+//         $message =
+//             <<<EOL
+// Hi {$user->first_name},
+
+// Your reservation for {$operation->name} has been canceled .
+// We are sorry for that.
+// Welcome to Almalikan.
+// EOL;
+//         $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
 
         return $res;
     }

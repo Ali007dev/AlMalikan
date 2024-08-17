@@ -202,22 +202,68 @@ class ReservationService
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+
+        $cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1','K1'];
+        $colors = [
+            'FF0000', // أحمر
+            '6B8DF9', // أخضر
+            '6AA4FA', // أزرق
+            'B2C4FC', // أصفر
+            'C1B7BC', // ماجنتا
+            'D6D0D3', // سيان
+            'E2E2E2', // رمادي
+            '00B050', // برتقالي
+            'FF0000', // بنفسجي
+            'FF0000', // مارون
+            'FFFF89'  // تركواز
+        ];
+
+        $gray = 'D3D3D3';
+        $white = 'FFFFFF';
+
+        foreach ($cells as $index => $cell) {
+            $sheet->getStyle($cell)->getFill()
+                ->setFillType(Fill::FILL_SOLID)
+                ->getStartColor()->setARGB($colors[$index]);
+        }
         $sheet->setCellValue('A1', 'Date');
         $sheet->setCellValue('B1', 'Time');
         $sheet->setCellValue('C1', 'Branch Name');
         $sheet->setCellValue('D1', 'Service Name');
         $sheet->setCellValue('E1', 'Customer Name');
+        $sheet->setCellValue('F1', 'employee Name');
+        $sheet->setCellValue('G1', 'total');
+
+
 
         $row = 2;
+        $total_price = 0;
         foreach ($bookings as $booking) {
+            $fillColor = $row % 2 === 0 ? $gray : $white;
+            $total_price = $booking['service']['price'] + $total_price;
+            $sheet->getStyle('A' . $row . ':K' . $row)->getFill()
+                ->setFillType(Fill::FILL_SOLID)
+                ->getStartColor()->setARGB('FF' . $fillColor);
 
-            $sheet->setCellValue('A' . $row, $booking['date']);
-            $sheet->setCellValue('B' . $row, $booking['time']);
-           // $sheet->setCellValue('C' . $row, $booking['branchName']);
-            $sheet->setCellValue('D' . $row,$booking['service']['name']);
-            $sheet->setCellValue('E' . $row, $booking['customer']['first_name'] . ' ' . $booking['customer']['last_name']);
+            $sheet->setCellValue('A' . $row, $booking['date']?? 'N/A');
+            $sheet->setCellValue('B' . $row, $booking['time']?? 'N/A');
+            $sheet->setCellValue('C' . $row, $booking['branch']['name']?? 'N/A');
+            $sheet->setCellValue('D' . $row,$booking['service']['name']?? 'N/A');
+            $sheet->setCellValue('G' . $row,$booking['service']['price']?? 'N/A');
+
+            $sheet->setCellValue('E' . $row, $booking['customer']['first_name'] ?? 'N/A' . ' ' . $booking['customer']['last_name'] ?? 'N/A');
+            if (isset($booking['employee']) && $booking['employee'] !== null) {
+                $employeeFirstName = $booking['employee']['first_name'] ?? 'N/A';
+                $employeeLastName = $booking['employee']['last_name'] ?? 'N/A';
+                $employeeFullName = $employeeFirstName . ' ' . $employeeLastName;
+            } else {
+                $employeeFullName = 'N/A';
+            }
+            $sheet->setCellValue('F' . $row, $employeeFullName);
             $row++;
         }
+        $sheet->setCellValue('G' . $row, $total_price);
+
 
 
         $fileName = 'AllEmployeesData.xlsx';

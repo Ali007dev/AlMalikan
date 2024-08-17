@@ -42,6 +42,12 @@ class UserController extends Controller
         return ApiResponseService::successResponse($user);
     }
 
+    public function updateMe(UpdateEmployeeRequest $request)
+    {
+        $user = $this->userService->updateMe($request);
+        return ApiResponseService::successResponse($user);
+    }
+
 
     public function me()
     {

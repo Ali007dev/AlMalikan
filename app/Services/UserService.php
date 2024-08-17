@@ -139,4 +139,31 @@ class UserService
 
         return $user;
     }
+
+    public function updateMe($request)
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        $user->update($request->only([
+            'first_name',
+            'last_name',
+            'middle_name',
+            'phone_number',
+            'email',
+            'password',
+            'role',
+            'branch_id',
+        ]));
+
+        if ($request->image) {
+            $image = upload($request->image, 'user/images');
+            $user->image()->delete();
+            $user->image()->create(
+                [
+                    'image' => $image,
+                    'type' => FileStatusEnum::PROFILE
+                ]
+            );
+        }
+        return $user;
+    }
 }

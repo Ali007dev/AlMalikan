@@ -66,6 +66,8 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 
     Route::get('show/{id}', 'show');
     Route::put('update/{id}', 'update');
+    Route::put('updateMe', 'updateMe');
+
 
     Route::get('showMe', 'me');
     Route::delete('delete/{id}', 'destroy');

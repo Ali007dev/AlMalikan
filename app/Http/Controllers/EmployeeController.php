@@ -28,6 +28,17 @@ class EmployeeController extends Controller
         return ApiResponseService::successResponse($employees);
     }
 
+    public function report($id)
+    {
+        $employees = $this->employeeService->report($id);
+        return ApiResponseService::successResponse($employees);
+    }
+    public function reportAll($id)
+    {
+        $employees = $this->employeeService->reportAll($id);
+        return ApiResponseService::successResponse($employees);
+    }
+
     public function store(Request $request) {}
 
     public function update(UpdateEmployeeRequest $request, $id)

@@ -44,6 +44,9 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 
 Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
     Route::get('index/{id}', 'index');
+    Route::get('report/{id}', 'report');
+    Route::get('reportAll/{id}', 'reportAll');
+
     Route::get('show/{id}', 'show');
     Route::get('attendance-percent/{id}', 'attendancePercent');
     Route::put('update/{id}', 'update');
@@ -131,6 +134,7 @@ Route::prefix('operation')->controller(OperationController::class)->group(functi
 });
 
 Route::prefix('booking')->controller(ReservationController::class)->group(function () {
+
     Route::get('index/{id}', 'index');
     Route::get('indexMe', 'me');
     Route::get('show/{id}', 'show');
@@ -139,18 +143,14 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::put('update/{id}', 'update');
     Route::put('decline/{id}', 'decline');
     Route::put('accept/{id}', 'accept');
-
     Route::delete('delete/{id}', 'destroy');
     Route::get('user-percentage/{id}', 'userPercentage');
     Route::get('show-user/{id}', 'showUser');
     Route::get('show-employee/{id}', 'showEmployee');
-
     Route::get('recent-with-user/{id}', 'recentWithUser');
     Route::get('archive-with-user/{id}', 'archiveWithUser');
-
     Route::get('recent-me', 'recentMe');
     Route::get('archive-me', 'archiveMe');
-
     Route::get('archive/{id}', 'archive');
     Route::get('recent/{id}', 'recent');
 

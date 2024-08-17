@@ -23,10 +23,10 @@ class ReservationRequest extends FormRequest
     {
         if ($this->isMethod('post')){
             $rules = [
-                'user_id' => 'numeric|exists:users,id',
-                'employee_id' => 'numeric|exists:users,id',
-                'operation_id' => 'required|numeric|exists:operations,id',
-                'branch_id' => 'required|numeric|exists:branches,id',
+                'user_id' => 'exists:users,id',
+                'employee_id' => 'exists:users,id',
+                'operation_id' => 'required|exists:operations,id',
+                'branch_id' => 'required|exists:branches,id',
                 'date' => 'date_format:Y-m-d',
                 'time' => 'date_format:H:i:s',
                 'status' => 'in:waiting,done,declined',
@@ -37,10 +37,10 @@ class ReservationRequest extends FormRequest
 
         if ($this->isMethod('put')) {
             $rules = [
-                'user_id' => 'numeric|exists:users,id' ?? null,
-                'employee_id' => 'numeric|exists:users,id' ?? null,
-                'operation_id' => 'numeric|exists:operations,id' ?? null,
-                'branch_id' => 'numeric|exists:branches,id' ?? null,
+                'user_id' => 'exists:users,id' ?? null,
+                'employee_id' => 'exists:users,id' ?? null,
+                'operation_id' => 'exists:operations,id' ?? null,
+                'branch_id' => 'exists:branches,id' ?? null,
                 'date' => 'date_format:Y-m-d' ?? null,
                 'time' => 'date_format:H:i:s' ?? null,
                 'status' => 'in:waiting,done,declined' ?? null,

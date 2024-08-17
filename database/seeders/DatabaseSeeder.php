@@ -24,22 +24,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Branch::factory(3)->create();
+       // Branch::factory(3)->create();
 
         $this->call(UserSeeder::class);
-      User::factory(50)->create();
-      Operation::factory(20)->create();
+    //   User::factory(50)->create();
+    //   Operation::factory(20)->create();
 
-      $this->call(EmployeeSeeder::class);
+    //   $this->call(EmployeeSeeder::class);
 
-     // Employee::factory(1)->create();
-      Experince::factory(10)->create();
-      Complaint::factory(50)->create();
-      Late::factory(30)->create();
-      Attendance::factory(500)->create();
-       Absence::factory(20)->create();
-       Day::factory(20)->create();
-       Ad::factory(20)->create();
+    //  // Employee::factory(1)->create();
+    //   Experince::factory(10)->create();
+    //   Complaint::factory(50)->create();
+    //   Late::factory(30)->create();
+    //   Attendance::factory(500)->create();
+    //    Absence::factory(20)->create();
+    //    Day::factory(20)->create();
+    //    Ad::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

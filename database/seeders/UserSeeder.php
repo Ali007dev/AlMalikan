@@ -28,11 +28,9 @@ class UserSeeder extends Seeder
         'last_name'=> 'admin',
         'middle_name'=> 'admin',
         'role'=> 'admin',
-
         'phone_number'=> '0992992992',
         'email'=> 'admin@admin.com',
         'password'=>Hash::make('password'),
-        'branch_id' => 1,
 
        ]);
        User::create([
@@ -43,7 +41,6 @@ class UserSeeder extends Seeder
         'last_name'=> 'admin',
         'email'=> 'admin@gmail.com',
         'password'=>Hash::make('password'),
-        'branch_id' => 1,
 
        ]);
 

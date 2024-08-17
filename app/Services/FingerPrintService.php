@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Attendance;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 
 class FingerPrintService
@@ -19,10 +20,14 @@ public function processAttendanceFile($request) {
         if (!isset($attendances[$date])) {
             $attendances[$date] = [];
         }
-
+        $user = User::where('id', $pin)->first();
+        if (!$user) {
+            continue; // Skip this entry if no user is found
+        }
         if (!isset($attendances[$date][$pin])) {
+          $id =  User::where('id',$attendances[$date][$pin])->get();
             $attendances[$date][$pin] = [
-                'user_id' => $pin,
+                'user_id' =>$id-> rendom()->id,
                 'checkIn' => null,
                 'checkOut' => null,
                 'date' => $date,

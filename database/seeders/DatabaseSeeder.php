@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       // Branch::factory(3)->create();
+        Branch::factory(1)->create();
 
         $this->call(UserSeeder::class);
     //   User::factory(50)->create();
@@ -36,8 +36,8 @@ class DatabaseSeeder extends Seeder
     //   Experince::factory(10)->create();
     //   Complaint::factory(50)->create();
     //   Late::factory(30)->create();
-    //   Attendance::factory(500)->create();
-    //    Absence::factory(20)->create();
+       Attendance::factory(500)->create();
+        Absence::factory(20)->create();
     //    Day::factory(20)->create();
     //    Ad::factory(20)->create();
 

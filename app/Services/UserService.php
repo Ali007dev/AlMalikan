@@ -156,8 +156,7 @@ class UserService
 
         if ($request->image) {
             $image = upload($request->image, 'user/images');
-            $user->image()->delete();
-            $user->image()->create(
+            $user->profileImage()->create(
                 [
                     'image' => $image,
                     'type' => FileStatusEnum::PROFILE

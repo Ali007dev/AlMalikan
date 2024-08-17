@@ -24,7 +24,7 @@ class AttendanceFactory extends Factory
         $random =$employees->random();
         return [
             'user_id' => $random->id,
-            'branch_id' => $random->branch_id,
+            'branch_id' => 1,
 
             'date' => $this->faker->dateTimeBetween('01-05-2024','01-08-2024'),
             'checkIn' => $this->faker->time('01:01:11'),

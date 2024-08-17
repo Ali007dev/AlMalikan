@@ -18,7 +18,7 @@ class BranchFactory extends Factory
     {
         return [
 
-             'name' => $this->faker->name,
+             'name' => 'branch 1',
              'location' => $this->faker->name,
              'start_time' => '09:00:00',
              'end_time' => '05:00:00',

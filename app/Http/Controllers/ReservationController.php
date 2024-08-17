@@ -93,13 +93,13 @@ class ReservationController extends Controller
     public function archiveMe()
     {
         $result = $this->reservationService->archiveMe();
-        return ApiResponseService::successResponse($result);
+        return ApiResponseService::successResponse(UserReservationResource::collection($result));
     }
 
     public function recentMe()
     {
         $result = $this->reservationService->recentMe();
-        return ApiResponseService::successResponse($result);
+        return ApiResponseService::successResponse(UserReservationResource::collection($result));
     }
 
     public function decline($id)

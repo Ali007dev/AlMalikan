@@ -156,6 +156,8 @@ class UserService
 
         if ($request->image) {
             $image = upload($request->image, 'user/images');
+            $user->profileImage()->delete();
+
             $user->profileImage()->create(
                 [
                     'image' => $image,

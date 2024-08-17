@@ -23,7 +23,12 @@ class ReservationController extends Controller
     }
     public function archive($id)
     {
-        $result = $this->reservationService->index($id);
+        $result = $this->reservationService->archive($id);
+        return ApiResponseService::successResponse($result);
+    }
+    public function recent($id)
+    {
+        $result = $this->reservationService->recent($id);
         return ApiResponseService::successResponse($result);
     }
 

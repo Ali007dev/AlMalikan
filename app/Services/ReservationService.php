@@ -13,13 +13,20 @@ class ReservationService
 {
     public  function index($id)
     {
+
         return  Reservation::where('branch_id', $id)->get();
     }
 
     public  function archive($id)
     {
+        return  Reservation::where('status','!=','waiting')->where('branch_id', $id)->where('date', '<=', Carbon::now()->format('Y-m-d'))->get()->toArray();
+    }
+
+    public  function recent($id)
+    {
         return  Reservation::where('branch_id', $id)->where('date', '>=', Carbon::now()->format('Y-m-d'))->get()->toArray();
     }
+
     public  function archiveWithUser($id)
     {
         return  User::where('id', $id)->with('archiveCustomerReservation')->get()->toArray();

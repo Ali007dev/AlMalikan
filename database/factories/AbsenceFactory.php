@@ -24,7 +24,7 @@ class AbsenceFactory extends Factory
 
         return [
             'user_id' => $random->id,
-            'branch_id' => $random->branch_id,
+            'branch_id' => 1,
             'date' => $this->faker->dateTimeBetween('01-05-2024','01-08-2024'),
 
         ];

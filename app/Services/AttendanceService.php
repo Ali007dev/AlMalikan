@@ -16,15 +16,17 @@ class AttendanceService
 
     $absence = $user->absence()->get()->map(function ($item) {
         $item['isAbsence'] = true;
+        $item['checkIn'] = null;
+        $item['checkOut'] = null;
+
         return $item;
     });
 
-    $attendance = $user->attendance()->get()->map(function ($item) {
+    $attendance = $user->allAttendance()->get()->map(function ($item) {
         $item['isAbsence'] = false;
         return $item;
     });
 
-    dd($absence, $attendance);
 
     $result = $absence->merge($attendance)
                       ->sortByDesc('date')

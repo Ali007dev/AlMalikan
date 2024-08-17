@@ -16,7 +16,7 @@ class Reservation extends Model
     public function getDayAttribute(){
         return Carbon::parse($this->date)->format('l');
     }
-    protected $with=['customer:id,first_name,last_name','employee:id,first_name,last_name','branch:id,name','service:id,name'];
+    protected $with=['customer:id,first_name,last_name','employee:id,first_name,last_name','branch:id,name','service:id,name,price'];
     public function customer()
     {
         return $this->belongsTo(User::class,'user_id');

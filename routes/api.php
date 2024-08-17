@@ -153,6 +153,7 @@ Route::prefix('booking')->controller(ReservationController::class)->group(functi
     Route::get('archive-me', 'archiveMe');
     Route::get('archive/{id}', 'archive');
     Route::get('recent/{id}', 'recent');
+    Route::get('report/{id}', 'report');
 
 });
 

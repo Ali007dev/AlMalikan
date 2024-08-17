@@ -90,12 +90,12 @@ class EmployeeService
         return $result;
     }
 
-    public function report($id)
+    public function report($id,$request)
     {
         $user = User::where('role', RoleEnum::EMPLOYEE)->with('employee', 'profileImage', 'services:id,name,from,to')
             ->findOrFail($id);
 
-        $attendance = $this->attendancePercentCount($id);
+        $attendance = $this->attendancePercentCount($id,$request);
 
 
         $spreadsheet = new Spreadsheet();
@@ -136,7 +136,7 @@ class EmployeeService
     }
 
 
-    public function reportAll($id)
+    public function reportAll($id,$request)
 {
     $users = User::where('branch_id',$id)->where('role', RoleEnum::EMPLOYEE)->with('employee', 'profileImage', 'services:id,name,from,to')->get();
 
@@ -180,7 +180,7 @@ foreach ($cells as $index => $cell) {
 
     $row = 2;
 foreach ($users as $user) {
-    $attendance = $this->attendancePercentCount($user->id);
+    $attendance = $this->attendancePercentCount($user->id,$request);
 
     $fillColor = $row % 2 === 0 ? $gray : $white;
 
@@ -240,22 +240,39 @@ foreach ($users as $user) {
         }
     }
 
-    public function attendancePercentCount($user)
-    {
-        $user = User::findOrFail($user);
-        $attendance = Attendance::where('user_id', $user)->where('branch_id', $user->id)->count();
-        $absence = Absence::where('user_id', $user)->where('branch_id', $user->id)->count();
-        $late = Late::where('employee_id', $user)->where('branch_id', $user->id)->count();
+    public function attendancePercentCount($userId, $date)
+{
+    $user = User::findOrFail($userId);
+    $date = Carbon::createFromFormat('Y-m-d', $date);
+    $startOfMonth = $date->startOfMonth()->toDateString();
+    $endOfMonth = $date->endOfMonth()->toDateString();
 
-        $days = Day::where('branch_id', $user->branch_id)->count();
+    // تحديد الحضور والغياب والتأخير خلال شهر معين
+    $attendance = Attendance::where('user_id', $user->id)
+                            ->where('branch_id', $user->branch_id)
+                            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+                            ->count();
+    $absence = Absence::where('user_id', $user->id)
+                      ->where('branch_id', $user->branch_id)
+                      ->whereBetween('date', [$startOfMonth, $endOfMonth])
+                      ->count();
+    $late = Late::where('employee_id', $user->id)
+                ->where('branch_id', $user->branch_id)
+                ->whereBetween('date', [$startOfMonth, $endOfMonth])
+                ->count();
 
-        return [
-            'absence' => $absence,
-            'late' => $late,
-            'attendance' =>  $attendance,
-            'total' =>  $days
-        ];
-    }
+    // عدد الأيام في الشهر
+    $days = Day::where('branch_id', $user->branch_id)
+               ->whereBetween('date', [$startOfMonth, $endOfMonth])
+               ->count();
+
+    return [
+        'absence' => $absence,
+        'late' => $late,
+        'attendance' => $attendance,
+        'total' => $days
+    ];
+}
 
     public function addServicesForUser($services, $user)
     {

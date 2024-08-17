@@ -21,6 +21,12 @@ class ReservationController extends Controller
         $result = $this->reservationService->index($id);
         return ApiResponseService::successResponse(ReservationResource::collection($result));
     }
+
+    public function report($id,Request $request)
+    {
+        $result = $this->reservationService->report($id,$request->date);
+        return ApiResponseService::successResponse($result);
+    }
     public function archive($id)
     {
         $result = $this->reservationService->archive($id);

@@ -2,12 +2,17 @@
 
 namespace App\Services;
 
+use App\Http\Resources\ReservationResource;
 use App\Models\Branch;
 use App\Models\Operation;
 use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Dompdf\Dompdf;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class ReservationService
 {
@@ -184,4 +189,47 @@ class ReservationService
     {
         return Reservation::whereIn('id', $id)->delete();
     }
+
+
+
+    public function report($id,$dateInput)
+    {
+        $date = Carbon::createFromFormat('Y-m-d', $dateInput);
+        $startOfMonth = $date->startOfMonth()->toDateString();
+        $endOfMonth = $date->endOfMonth()->toDateString();
+
+        $bookings = Reservation::where('branch_id',$id)->whereBetween('date', [$startOfMonth, $endOfMonth])->get();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'Date');
+        $sheet->setCellValue('B1', 'Time');
+        $sheet->setCellValue('C1', 'Branch Name');
+        $sheet->setCellValue('D1', 'Service Name');
+        $sheet->setCellValue('E1', 'Customer Name');
+
+        $row = 2;
+        foreach ($bookings as $booking) {
+
+            $sheet->setCellValue('A' . $row, $booking['date']);
+            $sheet->setCellValue('B' . $row, $booking['time']);
+           // $sheet->setCellValue('C' . $row, $booking['branchName']);
+            $sheet->setCellValue('D' . $row,$booking['service']['name']);
+            $sheet->setCellValue('E' . $row, $booking['customer']['first_name'] . ' ' . $booking['customer']['last_name']);
+            $row++;
+        }
+
+
+        $fileName = 'AllEmployeesData.xlsx';
+        $filePath = storage_path('app/public/reports') . '/' . $fileName;
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePath);
+
+        $fileUrl = asset('storage/reports/' . $fileName);
+
+        return response()->json(['file_url' => $fileUrl]);
+    }
+
+
 }

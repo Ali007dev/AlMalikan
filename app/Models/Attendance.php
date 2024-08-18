@@ -13,8 +13,16 @@ class Attendance extends Model
 
     protected $appends = ['day','status'];
 
-    public function getDayAttribute(){
-        return Carbon::parse($this->date)->format('l');
+    public function getDayAttribute() {
+        $originalLocale = Carbon::getLocale();
+
+        Carbon::setLocale('ar');
+
+        $day = Carbon::parse($this->date)->isoFormat('dddd');
+
+        Carbon::setLocale($originalLocale);
+
+        return $day;
     }
 
     public function getStatusAttribute(){

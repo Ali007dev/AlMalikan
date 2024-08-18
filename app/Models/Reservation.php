@@ -13,8 +13,16 @@ class Reservation extends Model
     protected $guarded = [];
     protected $appends = ['day'];
 
-    public function getDayAttribute(){
-        return Carbon::parse($this->date)->format('l');
+    public function getDayAttribute() {
+        $originalLocale = Carbon::getLocale();
+
+        Carbon::setLocale('ar');
+
+        $day = Carbon::parse($this->date)->isoFormat('dddd');
+
+        Carbon::setLocale($originalLocale);
+
+        return $day;
     }
     protected $with=['customer:id,first_name,last_name','employee:id,first_name,last_name','branch:id,name','service:id,name,price'];
     public function customer()

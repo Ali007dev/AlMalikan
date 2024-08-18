@@ -58,17 +58,26 @@ class AuthController extends Controller
                     'type' => 'bearer',]]);
 
     }
+    public function processPhoneNumber($request) {
+        $phoneNumber = $request->phone_number;
 
+        if (substr($phoneNumber, 0, 1) == '0') {
+            $phoneNumber = '+963' . substr($phoneNumber, 1);
+        }
+
+        return $phoneNumber;
+    }
     public function register(RegisterRequest $request)
     {
         DB::beginTransaction();
+        $phoneNumber = $this->processPhoneNumber($request);
 
         try {
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'middle_name' => $request->middle_name,
-                'phone_number' => $request->phone_number,
+                'phone_number' =>  $phoneNumber,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role'=> $request->role,

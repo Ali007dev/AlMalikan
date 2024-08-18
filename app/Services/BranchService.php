@@ -46,15 +46,15 @@ class BranchService
     }
 
     public function update($branch_id, $request)
-    {        $data = $request->except('image');
+    {
 
-        $branch =       Branch::findOrFail($branch_id);
-        $branch ->update( $data );
+        $data = $request->except('image');
+        $branch =Branch::findOrFail($branch_id);
+        $branch ->update($data);
         if($request->image){
         $image = upload($request->image, 'branches/images');
-        if($branch->image()){
         $branch->image()->delete();
-        }
+        
         $branch->image()->create(
             [
                 'image' =>$image,

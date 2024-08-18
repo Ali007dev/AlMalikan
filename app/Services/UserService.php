@@ -36,59 +36,38 @@ class UserService
     }
 
     public function storeImages($branchId, $request)
-{
-    $branch = Branch::findOrFail($branchId);
-    $descriptions = [];
-    $imageResponses = [];
-    $beforeId = null;
-    $afterId = null;
+    {
+        $branch = Branch::findOrFail($branchId);
 
-    if (!isset($request->images) || count($request->images) < 2) {
-        return ['error' => 'تحقق من بيانات الصور المرسلة'];
-    }
+        $descriptions = [];
 
-    foreach ($request->images as $image) {
-        $imagePath = null;
-        
-        $imagePath = upload($image['image'], 'user/images');
+        foreach ($request->images as $image) {
+            $imagePath = upload($image['image'], 'user/images');
 
-        if (!$imagePath) {
-            continue;
+            $storedImage  = $branch->image()->create([
+                'image' => $imagePath,
+                'type' => $image['type'],
+            ]);
+            $imageResponse[] = [
+                'image' => $imagePath,
+                'type' => $image['type'],
+            ];
+            $temp = $this->checkFileType($image['type'], FileStatusEnum::AFTER, $storedImage);
+            if ($temp) $after = $temp;
+            $temp = $this->checkFileType($image['type'], FileStatusEnum::BEFORE, $storedImage);
+            if ($temp) $before = $temp;
         }
-
-        $storedImage  = $branch->image()->create([
-            'image' => $imagePath,
-            'type' => $image['type'],
-        ]);
-
-        $imageResponse = [
-            'image' => $imagePath,
-            'type' => $image['type'],
-        ];
-        $imageResponses[] = $imageResponse;
-
-        if ($image['type'] === 'before') {
-            $beforeId = $storedImage->id;
-        } elseif ($image['type'] === 'after') {
-            $afterId = $storedImage->id;
-        }
-    }
-
-    if ($beforeId && $afterId) {
         $descriptions[] = [
-            'before_id' => $beforeId,
-            'after_id' => $afterId,
+            'before_id' => $before,
+            'after_id' => $after,
             'description' => $request->description,
             'branch_id' => $branchId
+
         ];
         ImageDescription::insert($descriptions);
+
+        return $imageResponse;
     }
-
-    return $imageResponses;
-}
-
-
-
     private function checkFileType($var1, $var2, $var3)
     {
         if ($var1 === $var2) {
@@ -177,8 +156,6 @@ class UserService
 
         if ($request->image) {
             $image = upload($request->image, 'user/images');
-            $user->profileImage()->ddelete();
-
             $user->profileImage()->create(
                 [
                     'image' => $image,

@@ -47,10 +47,21 @@ class BranchService
 
     public function update($branch_id, $request)
     {
-        return  Branch::findOrFail($branch_id)->update([
-            "name" => $request->name
-        ]);
+        $branch =       Branch::findOrFail($branch_id);
+        $branch ->update($request->all());
+        if($request->image){
+        $image = upload($request->image, 'offer/images');
+        $branch->image()->delete();
+        $branch->image()->create(
+            [
+                'image' =>$image,
+                'type' => FileStatusEnum::OTHER
+            ]
+        );
+        return true ;
+
     }
+}
 
     public function destroy($branch_id)
     {
@@ -140,7 +151,7 @@ class BranchService
             });
 
         for ($month = 1; $month <= 12; $month++) {
-            $monthFormatted = sprintf('%02d', $month); 
+            $monthFormatted = sprintf('%02d', $month);
 
             $attendance = $attendanceData->get($monthFormatted, collect())->count();
             $absence = $absenceData->get($monthFormatted, collect())->count();

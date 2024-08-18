@@ -41,9 +41,9 @@ class OperationService
 
     public function update($branch_id, $request)
     {
-        return  Operation::findOrFail($branch_id)->update([
-            "name" => $request->name
-        ]);
+        return  Operation::findOrFail($branch_id)->update(
+             $request->all()
+        );
 
     }
 

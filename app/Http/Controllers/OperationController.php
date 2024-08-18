@@ -26,7 +26,7 @@ class OperationController extends Controller
         $result = $this->operationService->store($request);
         return ApiResponseService::successResponse($result);
     }
-    public function update($id, Request $request)
+    public function update($id, OperationRequest $request)
     {
         $result = $this->operationService->update($id, $request);
         return ResponseHelper::success($result);

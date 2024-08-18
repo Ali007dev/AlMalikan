@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\ReservationResource;
 use App\Models\Branch;
+use App\Models\EmployeeService;
 use App\Models\Operation;
 use App\Models\Reservation;
 use App\Models\User;
@@ -110,20 +111,14 @@ class ReservationService
     {
         $user = User::findOrFail($request['user_id']);
         $operation = Operation::findOrFail($request['operation_id']);
-        $formattedPrice = number_format($operation->price, 2);
-
+        if(!$request['employee_id']){
+           $ser = EmployeeService::where('operation_id',$request['operation_id'])->first();
+           if($ser){
+            $request['employee_id']=$ser->user_id;
+         }
+        }
         $reservation = Reservation::create($request->all());
-//         $message =
-//             <<<EOL
-// Hi {$user->first_name},
 
-// Your reservation for {$operation->name} has been added on {$request->date} at {$request->time}.
-
-// Price: \${$formattedPrice}
-
-// Welcome to Almalikan.
-// EOL;
-//         $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
         return $reservation;
     }
     public  function storeMe($request)

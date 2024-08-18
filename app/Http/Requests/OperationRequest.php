@@ -21,15 +21,34 @@ class OperationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'string|required',
-            'price' => 'numeric|required',
-            'image' => 'file',
-            'from' => 'required_with:to|date_format:H:i:s',
-            'to' => 'date_format:H:i:s',
-            'period' => 'numeric',
-            'branch_id'=>'numeric|required|exists:branches,id' ,
 
-        ];
+        if ($this->isMethod('post')){
+            $rules = [
+                'name' => 'string|required',
+                'price' => 'numeric|required',
+                'image' => 'file',
+                'from' => 'required_with:to|date_format:H:i:s',
+                'to' => 'date_format:H:i:s',
+                'period' => 'numeric',
+                'branch_id'=>'numeric|required|exists:branches,id' ,
+            ];
+
+        }
+
+
+        if ($this->isMethod('put')) {
+            $rules = [
+                'name' => 'string' ?? null,
+                'price' => 'numeric'?? null,
+                'image' => 'file'?? null,
+                'from' => 'required_with:to|date_format:H:i:s'?? null,
+                'to' => 'date_format:H:i:s'?? null,
+                'period' => 'numeric'?? null,
+                'branch_id'=>'numeric|exists:branches,id'?? null ,
+            ];
+        }
+
+        return $rules;
     }
+
 }

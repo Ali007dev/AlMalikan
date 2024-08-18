@@ -49,6 +49,7 @@ class UserService
 
     foreach ($request->images as $image) {
         $imagePath = null;
+        
         $imagePath = upload($image['image'], 'user/images');
 
         if (!$imagePath) {

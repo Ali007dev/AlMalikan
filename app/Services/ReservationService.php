@@ -145,19 +145,16 @@ class ReservationService
         ]);
         $user = User::findOrFail($res->user_id);
         $operation = Operation::findOrFail($res->operation_id);
-        $formattedPrice = number_format($operation->price, 2);
+        $message =
+        <<<EOL
+    مرحبًا {$user->first_name}،
 
-//         $message =
-//             <<<EOL
-// Hi {$user->first_name},
+    لقد تم إلغاء حجزك للخدمة {$operation->name}.
+    نعتذر عن ذلك.
+    أهلاً بك في الملكان.
+    EOL;
 
-// Your reservation for {$operation->name} has been added on {$res->date} at {$res->time}.
-
-// Price: \${$formattedPrice}
-
-// Welcome to Almalikan.
-// EOL;
-//         $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+        $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
 
         return $res;
     }
@@ -171,15 +168,19 @@ class ReservationService
         ]);
         $user = User::findOrFail($res->user_id);
         $operation = Operation::findOrFail($res->operation_id);
-//         $message =
-//             <<<EOL
-// Hi {$user->first_name},
+        $formattedPrice = number_format($operation->price, 2);
 
-// Your reservation for {$operation->name} has been canceled .
-// We are sorry for that.
-// Welcome to Almalikan.
-// EOL;
-//         $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
+        $message =
+        <<<EOL
+    مرحبًا {$user->first_name}،
+
+    تمت إضافة حجزك للخدمة {$operation->name} في تاريخ {$res->date} الساعة {$res->time}.
+
+    السعر: \${$formattedPrice}
+
+    أهلاً بك في الملكان.
+    EOL;
+        $send = app(WhatsappService::class)->sendWhatsappMessage($user->phone_number, $message);
 
         return $res;
     }
